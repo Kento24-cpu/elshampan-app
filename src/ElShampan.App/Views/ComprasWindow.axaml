@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.ComprasWindow"
+        Title="Compras a proveedores"
+        Width="980" Height="640"
+        WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="Auto,4*,Auto,5*" Margin="10">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Proveedor:" VerticalAlignment="Center" />
+            <ComboBox x:Name="Proveedor" Width="230">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nombre}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="Gestionar proveedores" Click="OnGestionar" />
+            <TextBox x:Name="Buscar" Width="230" Watermark="Buscar producto"
+                     TextChanged="OnBuscarChanged" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" x:Name="ProductosGrid" IsReadOnly="True"
+                  SelectionMode="Single" HeadersVisibility="Column"
+                  CanUserSortColumns="False" SelectionChanged="OnProductoSeleccionado">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" IsVisible="False" />
+                <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="100" />
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*" />
+                <DataGridTextColumn Header="P. compra" Binding="{Binding PrecioCompra, StringFormat={}{0:N2}}" Width="110" />
+                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="70" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <GridSplitter Grid.Row="2" Height="6" ResizeDirection="Rows" Margin="0,4" />
+
+        <Grid Grid.Row="3" ColumnDefinitions="*,260">
+            <DataGrid x:Name="CarritoGrid" IsReadOnly="True"
+                      SelectionMode="Single" HeadersVisibility="Column"
+                      CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Producto" Binding="{Binding ProductoNombre}" Width="*" />
+                    <DataGridTextColumn Header="Cant." Binding="{Binding Cantidad}" Width="60" />
+                    <DataGridTextColumn Header="P. unitario" Binding="{Binding PrecioUnitario, StringFormat={}{0:N2}}" Width="110" />
+                    <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat={}{0:N2}}" Width="110" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <GridSplitter Grid.Column="1" Width="6" ResizeDirection="Columns" Margin="4,0" />
+
+            <StackPanel Grid.Column="2" Spacing="8" Margin="6,0,0,0">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="Cantidad:" VerticalAlignment="Center" />
+                    <NumericUpDown x:Name="Cantidad" Minimum="1" Maximum="9999" Value="1" Width="80" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="P. unitario:" VerticalAlignment="Center" />
+                    <NumericUpDown x:Name="PrecioUnitario" Minimum="0" Maximum="10000000"
+                                   FormatString="N2" Width="120" />
+                </StackPanel>
+                <Button Content="Agregar al carrito" HorizontalAlignment="Stretch" Click="OnAgregar" />
+                <Button Content="Quitar del carrito" HorizontalAlignment="Stretch" Click="OnQuitar" />
+                <TextBlock Text="TOTAL" FontWeight="Bold" Margin="0,8,0,0" />
+                <TextBlock x:Name="Total" FontWeight="Bold" Foreground="DarkGreen" FontSize="18" />
+                <Button Content="Limpiar carrito" HorizontalAlignment="Stretch" Margin="0,8,0,0" Click="OnLimpiar" />
+                <Button Content="REGISTRAR COMPRA" HorizontalAlignment="Stretch" Height="42"
+                        FontWeight="Bold" HorizontalContentAlignment="Center" Click="OnRegistrar" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
