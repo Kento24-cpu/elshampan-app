@@ -40,7 +40,7 @@ public class TicketForm : Form
         doc.PrintPage += (_, e) =>
         {
             var font = new Font(FontFamily.GenericMonospace, 10);
-            e.Graphics.DrawString(_texto, font, Brushes.Black, new PointF(40, 40));
+            e.Graphics?.DrawString(_texto, font, Brushes.Black, new PointF(40, 40));
         };
         using var dlg = new PrintDialog { Document = doc, AllowSomePages = false };
         if (dlg.ShowDialog(this) == DialogResult.OK)

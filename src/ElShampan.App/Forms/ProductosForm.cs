@@ -118,8 +118,8 @@ public class ProductosForm : Form
         {
             if (e.RowIndex < 0 || e.RowIndex >= _grid.Rows.Count) return;
             if (_grid.Rows[e.RowIndex].DataBoundItem is not Producto p) return;
-            if (!p.Activo) e.CellStyle.BackColor = Color.LightGray;
-            else if (p.Stock <= p.StockMinimo) e.CellStyle.BackColor = Color.Orange;
+            if (!p.Activo) e.CellStyle!.BackColor = Color.LightGray;
+            else if (p.Stock <= p.StockMinimo) e.CellStyle!.BackColor = Color.Orange;
         };
     }
 
