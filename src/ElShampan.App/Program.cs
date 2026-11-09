@@ -1,3 +1,5 @@
+using ElShampan.App.Forms;
+
 namespace ElShampan.App;
 
 static class Program
@@ -6,6 +8,12 @@ static class Program
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form { Text = "ElShampan" });
+        while (true)
+        {
+            using var login = new LoginForm();
+            if (login.ShowDialog() != DialogResult.OK) return;
+            using var main = new MainForm();
+            Application.Run(main);
+        }
     }
 }
