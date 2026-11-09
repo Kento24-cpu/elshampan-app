@@ -1,0 +1,132 @@
+using System.Text;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using ElShampan.App.Data;
+using ElShampan.App.Models;
+using ElShampan.App.Services;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
+
+namespace ElShampan.App.Views;
+
+public partial class PuntoVentaWindow : Window
+{
+    private readonly List<DetalleVenta> _carrito = new();
+
+    public PuntoVentaWindow()
+    {
+        InitializeComponent();
+        CargarProductos();
+        RefrescarCarrito();
+    }
+
+    private static Task Aviso(string texto, string titulo = "Validacion") =>
+        MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
+
+    private void OnBuscarChanged(object? sender, TextChangedEventArgs e) => CargarProductos();
+
+    private void CargarProductos()
+    {
+        try
+        {
+            ProductosGrid.ItemsSource = null;
+            ProductosGrid.ItemsSource = ProductoRepository.Search(Buscar.Text?.Trim() ?? "");
+        }
+        catch (Exception ex)
+        {
+            MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+        }
+    }
+
+    private void OnProductoDobleClick(object? sender, RoutedEventArgs e) => Agregar();
+
+    private void OnAgregar(object? sender, RoutedEventArgs e) => Agregar();
+
+    private async void Agregar()
+    {
+        if (ProductosGrid.SelectedItem is not Producto p) return;
+        var qty = (int)(Cantidad.Value ?? 1);
+        var enCarrito = _carrito.Where(d => d.ProductoId == p.Id).Sum(d => d.Cantidad);
+        if (enCarrito + qty > p.Stock)
+        {
+            await Aviso($"Stock insuficiente. Disponible: {p.Stock}, en carrito: {enCarrito}.");
+            return;
+        }
+        var detalle = _carrito.FirstOrDefault(d => d.ProductoId == p.Id);
+        if (detalle != null) detalle.Cantidad += qty;
+        else _carrito.Add(new DetalleVenta { ProductoId = p.Id, ProductoNombre = p.Nombre, Cantidad = qty, PrecioUnitario = p.PrecioVenta });
+        RefrescarCarrito();
+    }
+
+    private void OnQuitar(object? sender, RoutedEventArgs e)
+    {
+        if (CarritoGrid.SelectedItem is not DetalleVenta d) return;
+        _carrito.Remove(d);
+        RefrescarCarrito();
+    }
+
+    private void OnLimpiar(object? sender, RoutedEventArgs e)
+    {
+        _carrito.Clear();
+        RefrescarCarrito();
+    }
+
+    private void RefrescarCarrito()
+    {
+        CarritoGrid.ItemsSource = null;
+        CarritoGrid.ItemsSource = _carrito.ToList();
+        Total.Text = _carrito.Sum(d => d.Subtotal).ToString("N2");
+    }
+
+    private async void OnCobrar(object? sender, RoutedEventArgs e)
+    {
+        if (_carrito.Count == 0)
+        {
+            await Aviso("El carrito está vacío.");
+            return;
+        }
+        var venta = new Venta
+        {
+            UsuarioId = Sesion.Actual!.Id,
+            MetodoPago = ((ComboBoxItem)Pago.SelectedItem!).Content!.ToString()!,
+            Subtotal = _carrito.Sum(d => d.Subtotal),
+            Total = _carrito.Sum(d => d.Subtotal),
+            Detalles = new List<DetalleVenta>(_carrito),
+        };
+        try
+        {
+            VentaRepository.Registrar(venta);
+        }
+        catch (Exception ex)
+        {
+            await MessageBoxManager.GetMessageBoxStandard("No se pudo registrar la venta", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            CargarProductos();
+            return;
+        }
+        venta.Fecha = DateTime.Now;
+        var texto = TicketTexto(venta);
+        _carrito.Clear();
+        RefrescarCarrito();
+        CargarProductos();
+        await new TicketWindow(texto).ShowDialog(this);
+    }
+
+    private static string TicketTexto(Venta v)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("       ELSHAMSPAN");
+        sb.AppendLine("    Ticket de venta");
+        sb.AppendLine("--------------------------");
+        sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
+        sb.AppendLine($"Vendedor: {Sesion.Actual!.NombreCompleto}");
+        sb.AppendLine("--------------------------");
+        foreach (var d in v.Detalles)
+            sb.AppendLine($"{d.Cantidad,3} x {d.ProductoNombre,-22}{d.Subtotal,10:N2}");
+        sb.AppendLine("--------------------------");
+        sb.AppendLine($"TOTAL: {v.Total,28:N2}");
+        sb.AppendLine($"Pago: {v.MetodoPago}");
+        sb.AppendLine();
+        sb.AppendLine("     Gracias por su compra");
+        return sb.ToString();
+    }
+}

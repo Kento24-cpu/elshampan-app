@@ -14,6 +14,7 @@ public partial class MainWindow : Window
         Title = $"ElShampan - Sistema de venta de licor [{u.Rol}]";
         Usuario.Text = $"{u.NombreCompleto}\n{u.Rol}";
         Estado.Text = $"{u.NombreCompleto} ({u.Rol})";
+        AddNav("Punto de venta", () => new PuntoVentaWindow().ShowDialog(this));
         Closed += (_, _) =>
         {
             if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
