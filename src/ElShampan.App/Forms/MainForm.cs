@@ -30,6 +30,8 @@ public class MainForm : Form
         menu.Items.Add(reportes);
 
         var sistema = new ToolStripMenuItem("Sistema");
+        if (usuario.EsAdmin)
+            sistema.DropDownItems.Add("Usuarios", null, (_, _) => new UsuariosForm().ShowDialog(this));
         sistema.DropDownItems.Add("Cerrar sesion", null, (_, _) => Close());
         menu.Items.Add(sistema);
 
