@@ -16,6 +16,10 @@ public partial class TicketWindow : Window
 
     private readonly string _texto;
 
+    public TicketWindow() : this("")
+    {
+    }
+
     public TicketWindow(string texto)
     {
         InitializeComponent();
