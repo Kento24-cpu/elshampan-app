@@ -14,6 +14,12 @@ public class MainForm : Form
         StartPosition = FormStartPosition.CenterScreen;
 
         var menu = new MenuStrip();
+        if (usuario.EsAdmin)
+        {
+            var inventario = new ToolStripMenuItem("Inventario");
+            inventario.DropDownItems.Add("Productos", null, (_, _) => new ProductosForm().ShowDialog(this));
+            menu.Items.Add(inventario);
+        }
         var sistema = new ToolStripMenuItem("Sistema");
         sistema.DropDownItems.Add("Cerrar sesion", null, (_, _) => Close());
         menu.Items.Add(sistema);
