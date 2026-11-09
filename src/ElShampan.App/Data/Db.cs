@@ -7,10 +7,10 @@ public static class Db
 {
     public static string ConnectionString { get; } = Load();
 
-    public static async Task<MySqlConnection> OpenAsync()
+    public static MySqlConnection Open()
     {
         var conn = new MySqlConnection(ConnectionString);
-        await conn.OpenAsync();
+        conn.Open();
         return conn;
     }
 
