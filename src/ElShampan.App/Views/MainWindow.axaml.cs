@@ -17,6 +17,7 @@ public partial class MainWindow : Window
         AddNav("Productos", () => new ProductosWindow().ShowDialog(this), adminOnly: true);
         AddNav("Compras", () => new ComprasWindow().ShowDialog(this), adminOnly: true);
         AddNav("Punto de venta", () => new PuntoVentaWindow().ShowDialog(this));
+        AddNav("Reportes", () => new ReportesWindow().ShowDialog(this));
         Closed += (_, _) =>
         {
             if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)

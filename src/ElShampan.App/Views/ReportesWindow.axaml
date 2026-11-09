@@ -1,0 +1,84 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lcv="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        x:Class="ElShampan.App.Views.ReportesWindow"
+        Title="Reportes de ventas"
+        Width="980" Height="560"
+        WindowStartupLocation="CenterOwner">
+    <Grid ColumnDefinitions="*,340" RowDefinitions="Auto,*" Margin="10">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Desde:" VerticalAlignment="Center" />
+            <DatePicker x:Name="Desde" Width="130" />
+            <TextBlock Text="Hasta:" VerticalAlignment="Center" Margin="8,0,0,0" />
+            <DatePicker x:Name="Hasta" Width="130" />
+            <Button Content="Consultar" Click="OnConsultar" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,6">
+            <Grid RowDefinitions="*,6,Auto">
+                <DataGrid x:Name="VentasGrid" IsReadOnly="True" SelectionMode="Single"
+                          HeadersVisibility="Column" CanUserSortColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="60" />
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Width="150" />
+                        <DataGridTextColumn Header="Vendedor" Binding="{Binding Vendedor}" Width="*" />
+                        <DataGridTextColumn Header="Pago" Binding="{Binding MetodoPago}" Width="90" />
+                        <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:N2}}" Width="110" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <GridSplitter Grid.Row="1" Height="6" ResizeDirection="Rows" Margin="0,4" />
+
+                <Grid Grid.Row="2" ColumnDefinitions="*,280">
+                    <lcv:CartesianChart x:Name="VentasChart" Height="170" />
+                    <lcv:PieChart x:Name="PagoChart" Grid.Column="1" Height="170" />
+                </Grid>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" ResizeDirection="Columns" Margin="4,0" />
+
+            <ScrollViewer Grid.Column="2" Margin="8,0,0,0">
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Resumen del periodo" FontWeight="Bold" Margin="0,4,0,6" />
+                    <Grid ColumnDefinitions="160,*" Margin="0,2">
+                        <TextBlock Text="Total general:" />
+                        <TextBlock Grid.Column="1" x:Name="TotalGeneral" FontWeight="Bold" Foreground="DarkGreen" />
+                    </Grid>
+                    <Grid ColumnDefinitions="160,*" Margin="0,2">
+                        <TextBlock Text="Efectivo:" />
+                        <TextBlock Grid.Column="1" x:Name="TotalEfectivo" FontWeight="Bold" Foreground="DarkGreen" />
+                    </Grid>
+                    <Grid ColumnDefinitions="160,*" Margin="0,2">
+                        <TextBlock Text="Tarjeta:" />
+                        <TextBlock Grid.Column="1" x:Name="TotalTarjeta" FontWeight="Bold" Foreground="DarkGreen" />
+                    </Grid>
+
+                    <TextBlock Text="Top 5 productos" FontWeight="Bold" Margin="0,16,0,6" />
+                    <DataGrid x:Name="TopGrid" IsReadOnly="True" Height="130"
+                              HeadersVisibility="Column" CanUserSortColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Producto" Binding="{Binding Nombre}" Width="*" />
+                            <DataGridTextColumn Header="Cant." Binding="{Binding Cantidad}" Width="55" />
+                            <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:N2}}" Width="85" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="Stock bajo (alerta)" FontWeight="Bold" Margin="0,16,0,6" />
+                    <DataGrid x:Name="StockGrid" IsReadOnly="True" Height="150"
+                              HeadersVisibility="Column" CanUserSortColumns="False">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridCell">
+                                <Setter Property="Background" Value="Orange" />
+                            </Style>
+                        </DataGrid.Styles>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Producto" Binding="{Binding Nombre}" Width="*" />
+                            <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="55" />
+                            <DataGridTextColumn Header="Mín." Binding="{Binding StockMinimo}" Width="55" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
