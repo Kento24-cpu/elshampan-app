@@ -25,6 +25,10 @@ public class MainForm : Form
         ventas.DropDownItems.Add("Punto de venta", null, (_, _) => new PuntoVentaForm().ShowDialog(this));
         menu.Items.Add(ventas);
 
+        var reportes = new ToolStripMenuItem("Reportes");
+        reportes.DropDownItems.Add("Ventas y stock", null, (_, _) => new ReportesForm().ShowDialog(this));
+        menu.Items.Add(reportes);
+
         var sistema = new ToolStripMenuItem("Sistema");
         sistema.DropDownItems.Add("Cerrar sesion", null, (_, _) => Close());
         menu.Items.Add(sistema);
