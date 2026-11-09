@@ -22,7 +22,11 @@ public partial class MainWindow : Window
         Closed += (_, _) =>
         {
             if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.MainWindow = new LoginWindow();
+            {
+                var login = new LoginWindow();
+                desktop.MainWindow = login;
+                login.Show();
+            }
         };
     }
 

@@ -42,7 +42,11 @@ public partial class LoginWindow : Window
             Sesion.Actual = user;
             _loginOk = true;
             if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.MainWindow = new MainWindow();
+            {
+                var main = new MainWindow();
+                desktop.MainWindow = main;
+                main.Show();
+            }
             Close();
         }
         catch (MySqlException)
