@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.ProductosWindow"
+        Title="Productos"
+        Width="980" Height="560"
+        WindowStartupLocation="CenterOwner">
+    <Grid ColumnDefinitions="*,6,300" Margin="10">
+        <Grid RowDefinitions="Auto,*">
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <TextBox x:Name="Busqueda" Width="240" Watermark="Buscar por nombre o código"
+                         TextChanged="OnBusquedaChanged" />
+                <Button Content="Buscar" Click="OnBuscar" />
+                <Button Content="Nuevo" Click="OnNuevo" />
+                <Button Content="Guardar" Click="OnGuardar" />
+                <Button Content="Dar de baja" Click="OnDarDeBaja" />
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" x:Name="Grid" IsReadOnly="True"
+                      SelectionMode="Single" HeadersVisibility="Column"
+                      CanUserSortColumns="False"
+                      SelectionChanged="OnSeleccionar" LoadingRow="OnLoadingRow">
+                <DataGrid.Styles>
+                    <Style Selector="DataGridRow.inactivo">
+                        <Setter Property="Background" Value="LightGray" />
+                    </Style>
+                    <Style Selector="DataGridRow.inactivo > DataGridCell">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Setter Property="Foreground" Value="DimGray" />
+                    </Style>
+                    <Style Selector="DataGridRow.stock-bajo">
+                        <Setter Property="Background" Value="Orange" />
+                    </Style>
+                    <Style Selector="DataGridRow.stock-bajo > DataGridCell">
+                        <Setter Property="Background" Value="Orange" />
+                    </Style>
+                </DataGrid.Styles>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" IsVisible="False" />
+                    <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="100" />
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*" />
+                    <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" Width="120" />
+                    <DataGridTextColumn Header="Precio venta" Binding="{Binding PrecioVenta, StringFormat={}{0:N2}}" Width="110" />
+                    <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="70" />
+                    <DataGridTextColumn Header="Stock mín." Binding="{Binding StockMinimo}" Width="80" />
+                    <DataGridTextColumn Header="Activo" Binding="{Binding Activo}" Width="70" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Margin="4,0" />
+
+        <ScrollViewer Grid.Column="2" Margin="8,0,0,0">
+            <Grid ColumnDefinitions="110,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,4">
+                <TextBlock Grid.Row="0" Text="Código:" VerticalAlignment="Center" Margin="0,4" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="Codigo" Margin="0,4" />
+
+                <TextBlock Grid.Row="1" Text="Nombre:" VerticalAlignment="Center" Margin="0,4" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="Nombre" Margin="0,4" />
+
+                <TextBlock Grid.Row="2" Text="Categoría:" VerticalAlignment="Center" Margin="0,4" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="Categoria" Margin="0,4" />
+
+                <TextBlock Grid.Row="3" Text="Descripción:" VerticalAlignment="Center" Margin="0,4" />
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="Descripcion" Margin="0,4" />
+
+                <TextBlock Grid.Row="4" Text="Precio compra:" VerticalAlignment="Center" Margin="0,4" />
+                <NumericUpDown Grid.Row="4" Grid.Column="1" x:Name="PrecioCompra" Margin="0,4"
+                               Minimum="0" Maximum="10000000" FormatString="N2" />
+
+                <TextBlock Grid.Row="5" Text="Precio venta:" VerticalAlignment="Center" Margin="0,4" />
+                <NumericUpDown Grid.Row="5" Grid.Column="1" x:Name="PrecioVenta" Margin="0,4"
+                               Minimum="0" Maximum="10000000" FormatString="N2" />
+
+                <TextBlock Grid.Row="6" Text="Stock:" VerticalAlignment="Center" Margin="0,4" />
+                <NumericUpDown Grid.Row="6" Grid.Column="1" x:Name="Stock" Margin="0,4"
+                               Minimum="0" Maximum="1000000" Increment="1" />
+
+                <TextBlock Grid.Row="7" Text="Stock mínimo:" VerticalAlignment="Center" Margin="0,4" />
+                <NumericUpDown Grid.Row="7" Grid.Column="1" x:Name="StockMinimo" Margin="0,4"
+                               Minimum="0" Maximum="1000000" Increment="1" />
+
+                <CheckBox Grid.Row="8" Grid.Column="1" x:Name="Activo" Content="Activo" IsChecked="True" Margin="0,8,0,0" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>
