@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.LoginWindow"
+        Title="ElShampan - Inicio de sesión"
+        Width="380" Height="250"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="36,28" ColumnDefinitions="110,*">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Usuario:" VerticalAlignment="Center" />
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="Usuario" Margin="0,6" Watermark="Nombre de usuario" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Contraseña:" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="Password" Margin="0,6" PasswordChar="•" Watermark="Contraseña" />
+
+        <Button Grid.Row="2" Grid.Column="1" x:Name="Ingresar" Content="Ingresar"
+                Margin="0,14,0,0" HorizontalAlignment="Left" MinWidth="110" Click="OnLogin" />
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="Error"
+                   Foreground="Firebrick" TextWrapping="Wrap" Margin="0,14,0,0" />
+    </Grid>
+</Window>
