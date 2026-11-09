@@ -1,17 +1,18 @@
 using ElShampan.App.Data;
 using ElShampan.App.Models;
 using ElShampan.App.Services;
+using Krypton.Toolkit;
 
 namespace ElShampan.App.Forms;
 
 public class ComprasForm : Form
 {
-    private readonly DataGridView _productosGrid = new();
-    private readonly DataGridView _carritoGrid = new();
+    private readonly KryptonDataGridView _productosGrid = new();
+    private readonly KryptonDataGridView _carritoGrid = new();
     private readonly TextBox _buscar = new();
-    private readonly ComboBox _proveedor = new();
-    private readonly NumericUpDown _cantidad = new();
-    private readonly NumericUpDown _precioUnitario = new();
+    private readonly KryptonComboBox _proveedor = new();
+    private readonly KryptonNumericUpDown _cantidad = new();
+    private readonly KryptonNumericUpDown _precioUnitario = new();
     private readonly Label _total = new();
     private readonly List<DetalleCompra> _carrito = new();
 
@@ -25,7 +26,7 @@ public class ComprasForm : Form
         top.Controls.Add(new Label { Text = "Proveedor:", AutoSize = true, Margin = new Padding(0, 8, 4, 0) });
         _proveedor.Width = 220;
         _proveedor.DropDownStyle = ComboBoxStyle.DropDownList;
-        var btnGestionar = new Button { Text = "Gestionar proveedores" };
+        var btnGestionar = new KryptonButton { Text = "Gestionar proveedores" };
         btnGestionar.Click += (_, _) =>
         {
             new ProveedoresForm().ShowDialog(this);
@@ -67,10 +68,10 @@ public class ComprasForm : Form
         _precioUnitario.Maximum = 10_000_000;
         controls.Controls.Add(_precioUnitario);
         y += 34;
-        var btnAgregar = new Button { Text = "Agregar al carrito", Location = new Point(12, y), Width = 230 };
+        var btnAgregar = new KryptonButton { Text = "Agregar al carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnAgregar);
         y += 36;
-        var btnQuitar = new Button { Text = "Quitar del carrito", Location = new Point(12, y), Width = 230 };
+        var btnQuitar = new KryptonButton { Text = "Quitar del carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnQuitar);
         y += 44;
         controls.Controls.Add(new Label { Text = "TOTAL", AutoSize = true, Location = new Point(12, y), Font = new Font(Font, FontStyle.Bold) });
@@ -81,10 +82,10 @@ public class ComprasForm : Form
         _total.ForeColor = Color.DarkGreen;
         controls.Controls.Add(_total);
         y += 44;
-        var btnLimpiar = new Button { Text = "Limpiar carrito", Location = new Point(12, y), Width = 230 };
+        var btnLimpiar = new KryptonButton { Text = "Limpiar carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnLimpiar);
         y += 40;
-        var btnRegistrar = new Button { Text = "REGISTRAR COMPRA", Location = new Point(12, y), Width = 230, Height = 40 };
+        var btnRegistrar = new KryptonButton { Text = "REGISTRAR COMPRA", Location = new Point(12, y), Width = 230, Height = 40 };
         btnRegistrar.Font = new Font(btnRegistrar.Font, FontStyle.Bold);
         controls.Controls.Add(btnRegistrar);
 

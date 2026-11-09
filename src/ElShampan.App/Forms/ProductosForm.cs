@@ -1,26 +1,27 @@
 using ElShampan.App.Data;
 using ElShampan.App.Models;
+using Krypton.Toolkit;
 using MySqlConnector;
 
 namespace ElShampan.App.Forms;
 
 public class ProductosForm : Form
 {
-    private readonly DataGridView _grid = new();
+    private readonly KryptonDataGridView _grid = new();
     private readonly TextBox _busqueda = new();
     private readonly Panel _panel = new();
     private List<Producto> _productos = new();
     private Producto? _actual;
 
-    private readonly TextBox _codigo = new();
-    private readonly TextBox _nombre = new();
-    private readonly TextBox _categoria = new();
-    private readonly TextBox _descripcion = new();
-    private readonly NumericUpDown _precioCompra = new();
-    private readonly NumericUpDown _precioVenta = new();
-    private readonly NumericUpDown _stock = new();
-    private readonly NumericUpDown _stockMin = new();
-    private readonly CheckBox _activo = new();
+    private readonly KryptonTextBox _codigo = new();
+    private readonly KryptonTextBox _nombre = new();
+    private readonly KryptonTextBox _categoria = new();
+    private readonly KryptonTextBox _descripcion = new();
+    private readonly KryptonNumericUpDown _precioCompra = new();
+    private readonly KryptonNumericUpDown _precioVenta = new();
+    private readonly KryptonNumericUpDown _stock = new();
+    private readonly KryptonNumericUpDown _stockMin = new();
+    private readonly KryptonCheckBox _activo = new();
 
     public ProductosForm()
     {
@@ -31,10 +32,10 @@ public class ProductosForm : Form
         var top = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 38, Padding = new Padding(6) };
         _busqueda.Width = 220;
         _busqueda.PlaceholderText = "Buscar por nombre o codigo";
-        var btnBuscar = new Button { Text = "Buscar" };
-        var btnNuevo = new Button { Text = "Nuevo" };
-        var btnGuardar = new Button { Text = "Guardar" };
-        var btnBaja = new Button { Text = "Dar de baja" };
+        var btnBuscar = new KryptonButton { Text = "Buscar" };
+        var btnNuevo = new KryptonButton { Text = "Nuevo" };
+        var btnGuardar = new KryptonButton { Text = "Guardar" };
+        var btnBaja = new KryptonButton { Text = "Dar de baja" };
         top.Controls.AddRange(new Control[] { _busqueda, btnBuscar, btnNuevo, btnGuardar, btnBaja });
 
         _grid.Dock = DockStyle.Fill;
@@ -97,7 +98,7 @@ public class ProductosForm : Form
         Reload();
     }
 
-    private int AddField(string label, TextBox box, int y)
+    private int AddField(string label, KryptonTextBox box, int y)
     {
         _panel.Controls.Add(new Label { Text = label, AutoSize = true, Location = new Point(12, y + 3) });
         box.SetBounds(120, y, 150, 23);

@@ -1,14 +1,15 @@
 using ElShampan.App.Data;
+using Krypton.Toolkit;
 
 namespace ElShampan.App.Forms;
 
 public class ReportesForm : Form
 {
-    private readonly DateTimePicker _desde = new();
-    private readonly DateTimePicker _hasta = new();
-    private readonly DataGridView _ventasGrid = new();
-    private readonly DataGridView _topGrid = new();
-    private readonly DataGridView _stockGrid = new();
+    private readonly KryptonDateTimePicker _desde = new();
+    private readonly KryptonDateTimePicker _hasta = new();
+    private readonly KryptonDataGridView _ventasGrid = new();
+    private readonly KryptonDataGridView _topGrid = new();
+    private readonly KryptonDataGridView _stockGrid = new();
     private readonly Label _totalGeneral = new();
     private readonly Label _totalEfectivo = new();
     private readonly Label _totalTarjeta = new();
@@ -30,7 +31,7 @@ public class ReportesForm : Form
         _hasta.Width = 110;
         _hasta.Value = DateTime.Today;
         top.Controls.Add(_hasta);
-        var btnConsultar = new Button { Text = "Consultar" };
+        var btnConsultar = new KryptonButton { Text = "Consultar" };
         top.Controls.Add(btnConsultar);
 
         _ventasGrid.Dock = DockStyle.Fill;

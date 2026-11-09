@@ -2,16 +2,17 @@ using System.Text;
 using ElShampan.App.Data;
 using ElShampan.App.Models;
 using ElShampan.App.Services;
+using Krypton.Toolkit;
 
 namespace ElShampan.App.Forms;
 
 public class PuntoVentaForm : Form
 {
-    private readonly DataGridView _productosGrid = new();
-    private readonly DataGridView _carritoGrid = new();
+    private readonly KryptonDataGridView _productosGrid = new();
+    private readonly KryptonDataGridView _carritoGrid = new();
     private readonly TextBox _buscar = new();
-    private readonly NumericUpDown _cantidad = new();
-    private readonly ComboBox _pago = new();
+    private readonly KryptonNumericUpDown _cantidad = new();
+    private readonly KryptonComboBox _pago = new();
     private readonly Label _total = new();
     private readonly List<DetalleVenta> _carrito = new();
 
@@ -55,10 +56,10 @@ public class PuntoVentaForm : Form
         controls.Controls.Add(_cantidad);
         y += 34;
 
-        var btnAgregar = new Button { Text = "Agregar al carrito", Location = new Point(12, y), Width = 230 };
+        var btnAgregar = new KryptonButton { Text = "Agregar al carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnAgregar);
         y += 36;
-        var btnQuitar = new Button { Text = "Quitar del carrito", Location = new Point(12, y), Width = 230 };
+        var btnQuitar = new KryptonButton { Text = "Quitar del carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnQuitar);
         y += 44;
 
@@ -79,10 +80,10 @@ public class PuntoVentaForm : Form
         controls.Controls.Add(_total);
         y += 44;
 
-        var btnLimpiar = new Button { Text = "Limpiar carrito", Location = new Point(12, y), Width = 230 };
+        var btnLimpiar = new KryptonButton { Text = "Limpiar carrito", Location = new Point(12, y), Width = 230 };
         controls.Controls.Add(btnLimpiar);
         y += 40;
-        var btnCobrar = new Button { Text = "COBRAR", Location = new Point(12, y), Width = 230, Height = 40 };
+        var btnCobrar = new KryptonButton { Text = "COBRAR", Location = new Point(12, y), Width = 230, Height = 40 };
         btnCobrar.Font = new Font(btnCobrar.Font, FontStyle.Bold);
         controls.Controls.Add(btnCobrar);
 

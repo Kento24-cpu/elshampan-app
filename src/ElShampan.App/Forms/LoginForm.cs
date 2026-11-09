@@ -1,14 +1,15 @@
 using ElShampan.App.Data;
 using ElShampan.App.Services;
+using Krypton.Toolkit;
 using MySqlConnector;
 
 namespace ElShampan.App.Forms;
 
 public class LoginForm : Form
 {
-    private readonly TextBox _usuario = new();
-    private readonly TextBox _password = new();
-    private readonly Button _btnLogin = new();
+    private readonly KryptonTextBox _usuario = new();
+    private readonly KryptonTextBox _password = new();
+    private readonly KryptonButton _btnLogin = new();
     private readonly Label _error = new();
 
     public LoginForm()

@@ -1,21 +1,22 @@
 using ElShampan.App.Data;
 using ElShampan.App.Models;
+using Krypton.Toolkit;
 using MySqlConnector;
 
 namespace ElShampan.App.Forms;
 
 public class UsuariosForm : Form
 {
-    private readonly DataGridView _grid = new();
+    private readonly KryptonDataGridView _grid = new();
     private readonly Panel _panel = new();
     private readonly List<Usuario> _usuarios = new();
     private Usuario? _actual;
 
-    private readonly TextBox _nombreUsuario = new();
-    private readonly TextBox _nombreCompleto = new();
-    private readonly TextBox _password = new();
-    private readonly ComboBox _rol = new();
-    private readonly CheckBox _activo = new();
+    private readonly KryptonTextBox _nombreUsuario = new();
+    private readonly KryptonTextBox _nombreCompleto = new();
+    private readonly KryptonTextBox _password = new();
+    private readonly KryptonComboBox _rol = new();
+    private readonly KryptonCheckBox _activo = new();
 
     public UsuariosForm()
     {
@@ -24,8 +25,8 @@ public class UsuariosForm : Form
         StartPosition = FormStartPosition.CenterParent;
 
         var top = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 38, Padding = new Padding(6) };
-        var btnNuevo = new Button { Text = "Nuevo" };
-        var btnGuardar = new Button { Text = "Guardar" };
+        var btnNuevo = new KryptonButton { Text = "Nuevo" };
+        var btnGuardar = new KryptonButton { Text = "Guardar" };
         top.Controls.AddRange(new Control[] { btnNuevo, btnGuardar });
 
         _grid.Dock = DockStyle.Fill;
@@ -76,7 +77,7 @@ public class UsuariosForm : Form
         Reload();
     }
 
-    private int AddField(string label, TextBox box, int y)
+    private int AddField(string label, KryptonTextBox box, int y)
     {
         _panel.Controls.Add(new Label { Text = label, AutoSize = true, Location = new Point(12, y + 3) });
         box.SetBounds(110, y, 155, 23);
