@@ -1,14 +1,20 @@
 using ElShampan.App.Data;
+using Krypton.Toolkit;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WinForms;
 
 namespace ElShampan.App.Forms;
 
 public class ReportesForm : Form
 {
-    private readonly DateTimePicker _desde = new();
-    private readonly DateTimePicker _hasta = new();
-    private readonly DataGridView _ventasGrid = new();
-    private readonly DataGridView _topGrid = new();
-    private readonly DataGridView _stockGrid = new();
+    private readonly KryptonDateTimePicker _desde = new();
+    private readonly KryptonDateTimePicker _hasta = new();
+    private readonly KryptonDataGridView _ventasGrid = new();
+    private readonly KryptonDataGridView _topGrid = new();
+    private readonly KryptonDataGridView _stockGrid = new();
+    private readonly CartesianChart _ventasChart = new();
+    private readonly PieChart _pagoChart = new();
     private readonly Label _totalGeneral = new();
     private readonly Label _totalEfectivo = new();
     private readonly Label _totalTarjeta = new();
@@ -30,7 +36,7 @@ public class ReportesForm : Form
         _hasta.Width = 110;
         _hasta.Value = DateTime.Today;
         top.Controls.Add(_hasta);
-        var btnConsultar = new Button { Text = "Consultar" };
+        var btnConsultar = new KryptonButton { Text = "Consultar" };
         top.Controls.Add(btnConsultar);
 
         _ventasGrid.Dock = DockStyle.Fill;
@@ -83,9 +89,17 @@ public class ReportesForm : Form
         _stockGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Min.", DataPropertyName = "StockMinimo", Width = 60 });
         side.Controls.Add(_stockGrid);
 
+        var charts = new Panel { Dock = DockStyle.Bottom, Height = 190 };
+        _ventasChart.Dock = DockStyle.Fill;
+        _pagoChart.Dock = DockStyle.Right;
+        _pagoChart.Width = 280;
+        charts.Controls.Add(_ventasChart);
+        charts.Controls.Add(_pagoChart);
+
         Controls.Add(_ventasGrid);
         Controls.Add(side);
         Controls.Add(top);
+        Controls.Add(charts);
 
         btnConsultar.Click += (_, _) => Consultar();
 
@@ -126,6 +140,23 @@ public class ReportesForm : Form
 
             _stockGrid.DataSource = null;
             _stockGrid.DataSource = ProductoRepository.GetLowStock();
+
+            var porDia = ventas.GroupBy(v => v.Fecha.Date).OrderBy(g => g.Key).ToList();
+            _ventasChart.Series = new ISeries[]
+            {
+                new ColumnSeries<decimal> { Values = porDia.Select(g => g.Sum(v => v.Total)).ToArray() }
+            };
+            _ventasChart.XAxes = new Axis[]
+            {
+                new Axis { Labels = porDia.Select(g => g.Key.ToString("dd/MM")).ToArray(), LabelsRotation = 45 }
+            };
+
+            _pagoChart.Series = ventas.GroupBy(v => v.MetodoPago)
+                .Select(g => (ISeries)new PieSeries<decimal>
+                {
+                    Name = g.Key,
+                    Values = new[] { g.Sum(v => v.Total) },
+                }).ToArray();
         }
         catch (Exception ex)
         {

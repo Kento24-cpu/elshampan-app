@@ -1,4 +1,5 @@
 using ElShampan.App.Services;
+using Krypton.Toolkit;
 
 namespace ElShampan.App.Forms;
 
@@ -16,26 +17,26 @@ public class MainForm : Form
         var menu = new MenuStrip();
         if (usuario.EsAdmin)
         {
-            var inventario = new ToolStripMenuItem("Inventario");
+            var inventario = new KryptonToolStripMenuItem("Inventario");
             inventario.DropDownItems.Add("Productos", null, (_, _) => new ProductosForm().ShowDialog(this));
             inventario.DropDownItems.Add("Compras", null, (_, _) => new ComprasForm().ShowDialog(this));
             menu.Items.Add(inventario);
         }
-        var ventas = new ToolStripMenuItem("Ventas");
+        var ventas = new KryptonToolStripMenuItem("Ventas");
         ventas.DropDownItems.Add("Punto de venta", null, (_, _) => new PuntoVentaForm().ShowDialog(this));
         menu.Items.Add(ventas);
 
-        var reportes = new ToolStripMenuItem("Reportes");
+        var reportes = new KryptonToolStripMenuItem("Reportes");
         reportes.DropDownItems.Add("Ventas y stock", null, (_, _) => new ReportesForm().ShowDialog(this));
         menu.Items.Add(reportes);
 
-        var sistema = new ToolStripMenuItem("Sistema");
+        var sistema = new KryptonToolStripMenuItem("Sistema");
         if (usuario.EsAdmin)
             sistema.DropDownItems.Add("Usuarios", null, (_, _) => new UsuariosForm().ShowDialog(this));
         sistema.DropDownItems.Add("Cerrar sesion", null, (_, _) => Close());
         menu.Items.Add(sistema);
 
-        var status = new StatusStrip();
+        var status = new KryptonStatusStrip();
         status.Items.Add(_status);
         _status.Text = $"{usuario.NombreCompleto} ({usuario.Rol})";
 

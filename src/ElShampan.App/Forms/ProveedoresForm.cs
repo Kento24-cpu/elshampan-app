@@ -1,20 +1,21 @@
 using ElShampan.App.Data;
 using ElShampan.App.Models;
+using Krypton.Toolkit;
 using MySqlConnector;
 
 namespace ElShampan.App.Forms;
 
 public class ProveedoresForm : Form
 {
-    private readonly DataGridView _grid = new();
+    private readonly KryptonDataGridView _grid = new();
     private readonly Panel _panel = new();
     private readonly List<Proveedor> _proveedores = new();
     private Proveedor? _actual;
 
-    private readonly TextBox _nombre = new();
-    private readonly TextBox _telefono = new();
-    private readonly TextBox _email = new();
-    private readonly TextBox _direccion = new();
+    private readonly KryptonTextBox _nombre = new();
+    private readonly KryptonTextBox _telefono = new();
+    private readonly KryptonTextBox _email = new();
+    private readonly KryptonTextBox _direccion = new();
 
     public ProveedoresForm()
     {
@@ -23,9 +24,9 @@ public class ProveedoresForm : Form
         StartPosition = FormStartPosition.CenterParent;
 
         var top = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 38, Padding = new Padding(6) };
-        var btnNuevo = new Button { Text = "Nuevo" };
-        var btnGuardar = new Button { Text = "Guardar" };
-        var btnEliminar = new Button { Text = "Eliminar" };
+        var btnNuevo = new KryptonButton { Text = "Nuevo" };
+        var btnGuardar = new KryptonButton { Text = "Guardar" };
+        var btnEliminar = new KryptonButton { Text = "Eliminar" };
         top.Controls.AddRange(new Control[] { btnNuevo, btnGuardar, btnEliminar });
 
         _grid.Dock = DockStyle.Fill;
@@ -66,7 +67,7 @@ public class ProveedoresForm : Form
         Reload();
     }
 
-    private int AddField(string label, TextBox box, int y)
+    private int AddField(string label, KryptonTextBox box, int y)
     {
         _panel.Controls.Add(new Label { Text = label, AutoSize = true, Location = new Point(12, y + 3) });
         box.SetBounds(110, y, 155, 23);
