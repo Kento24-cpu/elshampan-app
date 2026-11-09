@@ -18,6 +18,7 @@ public class MainForm : Form
         {
             var inventario = new ToolStripMenuItem("Inventario");
             inventario.DropDownItems.Add("Productos", null, (_, _) => new ProductosForm().ShowDialog(this));
+            inventario.DropDownItems.Add("Compras", null, (_, _) => new ComprasForm().ShowDialog(this));
             menu.Items.Add(inventario);
         }
         var ventas = new ToolStripMenuItem("Ventas");
