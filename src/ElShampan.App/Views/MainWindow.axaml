@@ -11,7 +11,7 @@
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Spacing="4">
                     <TextBlock Text="ElShampan" FontSize="22" FontWeight="Bold" />
-                    <TextBlock x:Name="Usuario" FontSize="12" Opacity="0.7" TextWrapping="Wrap" />
+                    <TextBlock x:Name="Usuario" FontSize="12" TextWrapping="Wrap" />
                     <Separator Margin="0,14" />
                     <StackPanel x:Name="Nav" Spacing="6" />
                 </StackPanel>
@@ -22,10 +22,38 @@
         </Border>
 
         <Grid Grid.Column="1" RowDefinitions="*,Auto">
-            <Border Padding="20">
-                <TextBlock x:Name="Bienvenida" Text="Seleccione un módulo del menú lateral."
-                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                           Opacity="0.6" FontSize="16" />
+            <Border Padding="24">
+                <StackPanel MaxWidth="560" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+                    <TextBlock Text="Resumen de hoy" FontSize="20" FontWeight="Bold"
+                               HorizontalAlignment="Center" />
+                    <Grid ColumnDefinitions="*,*">
+                        <Border Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                                Padding="16" CornerRadius="6">
+                            <StackPanel Spacing="2">
+                                <TextBlock x:Name="VentasHoyTitulo" Text="Ventas de hoy" FontSize="12" Opacity="0.7" />
+                                <TextBlock x:Name="VentasHoyTotal" FontSize="26" FontWeight="Bold" Text="0,00" />
+                                <TextBlock x:Name="VentasHoyCantidad" FontSize="12" Opacity="0.7" Text="Sin ventas aún" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Margin="12,0,0,0"
+                                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                                Padding="16" CornerRadius="6">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Stock bajo" FontSize="12" Opacity="0.7" />
+                                <TextBlock x:Name="StockBajoTotal" FontSize="26" FontWeight="Bold" Text="0" />
+                                <TextBlock Text="productos en el mínimo o por debajo" FontSize="12" Opacity="0.7" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Border Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                            Padding="16" CornerRadius="6">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Más vendidos hoy" FontWeight="Bold" />
+                            <TextBlock x:Name="TopHoy" FontSize="13" Opacity="0.85"
+                                       TextWrapping="Wrap" Text="Sin ventas registradas hoy." />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Border>
             <Border Grid.Row="1" Padding="12,6"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">

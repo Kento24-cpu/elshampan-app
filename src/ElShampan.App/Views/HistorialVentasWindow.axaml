@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.HistorialVentasWindow"
+        Title="Ventas del día"
+        Width="860" Height="480"
+        WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="Auto,*" Margin="10">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="Fecha:" VerticalAlignment="Center" />
+            <DatePicker x:Name="Fecha" Width="140" />
+            <Button Content="Consultar" Click="OnConsultar" />
+            <Button Content="Ver ticket" Click="OnVerTicket" />
+            <Button Content="Anular venta" Click="OnAnular" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" x:Name="VentasGrid" IsReadOnly="True"
+                  SelectionMode="Single" Margin="0,8,0,0"
+                  HeadersVisibility="Column" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="60" />
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Width="150" />
+                <DataGridTextColumn Header="Vendedor" Binding="{Binding Vendedor}" Width="*" />
+                <DataGridTextColumn Header="Pago" Binding="{Binding MetodoPago}" Width="90" />
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat={}{0:N2}}" Width="110" />
+                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="90" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

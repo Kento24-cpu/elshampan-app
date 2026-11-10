@@ -18,10 +18,10 @@ CREATE TABLE productos (
   nombre VARCHAR(120) NOT NULL,
   categoria VARCHAR(60) NOT NULL,
   descripcion VARCHAR(255) NULL,
-  precio_compra DECIMAL(10, 2) NOT NULL,
-  precio_venta DECIMAL(10, 2) NOT NULL,
-  stock INT NOT NULL DEFAULT 0,
-  stock_minimo INT NOT NULL DEFAULT 5,
+  precio_compra DECIMAL(10, 2) NOT NULL CHECK (precio_compra >= 0),
+  precio_venta DECIMAL(10, 2) NOT NULL CHECK (precio_venta > 0),
+  stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),
+  stock_minimo INT NOT NULL DEFAULT 5 CHECK (stock_minimo >= 0),
   activo TINYINT(1) NOT NULL DEFAULT 1,
   INDEX idx_productos_nombre (nombre)
 ) ENGINE = InnoDB;
@@ -38,21 +38,23 @@ CREATE TABLE ventas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT NOT NULL,
   fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  subtotal DECIMAL(10, 2) NOT NULL,
-  total DECIMAL(10, 2) NOT NULL,
+  subtotal DECIMAL(10, 2) NOT NULL CHECK (subtotal >= 0),
+  total DECIMAL(10, 2) NOT NULL CHECK (total >= 0),
   metodo_pago ENUM('efectivo', 'tarjeta') NOT NULL,
+  anulada TINYINT(1) NOT NULL DEFAULT 0,
   CONSTRAINT fk_ventas_usuario FOREIGN KEY (usuario_id)
     REFERENCES usuarios (id) ON DELETE RESTRICT,
   INDEX idx_ventas_fecha (fecha)
 ) ENGINE = InnoDB;
+-- Base existente: ALTER TABLE ventas ADD COLUMN anulada TINYINT(1) NOT NULL DEFAULT 0;
 
 CREATE TABLE ventas_detalles (
   id INT AUTO_INCREMENT PRIMARY KEY,
   venta_id INT NOT NULL,
   producto_id INT NOT NULL,
-  cantidad INT NOT NULL,
-  precio_unitario DECIMAL(10, 2) NOT NULL,
-  subtotal DECIMAL(10, 2) NOT NULL,
+  cantidad INT NOT NULL CHECK (cantidad > 0),
+  precio_unitario DECIMAL(10, 2) NOT NULL CHECK (precio_unitario >= 0),
+  subtotal DECIMAL(10, 2) NOT NULL CHECK (subtotal >= 0),
   CONSTRAINT fk_det_venta FOREIGN KEY (venta_id)
     REFERENCES ventas (id) ON DELETE RESTRICT,
   CONSTRAINT fk_det_producto FOREIGN KEY (producto_id)
@@ -64,7 +66,7 @@ CREATE TABLE compras (
   proveedor_id INT NOT NULL,
   usuario_id INT NOT NULL,
   fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  total DECIMAL(10, 2) NOT NULL,
+  total DECIMAL(10, 2) NOT NULL CHECK (total >= 0),
   CONSTRAINT fk_compras_proveedor FOREIGN KEY (proveedor_id)
     REFERENCES proveedores (id) ON DELETE RESTRICT,
   CONSTRAINT fk_compras_usuario FOREIGN KEY (usuario_id)
@@ -76,8 +78,8 @@ CREATE TABLE compras_detalles (
   id INT AUTO_INCREMENT PRIMARY KEY,
   compra_id INT NOT NULL,
   producto_id INT NOT NULL,
-  cantidad INT NOT NULL,
-  precio_unitario DECIMAL(10, 2) NOT NULL,
+  cantidad INT NOT NULL CHECK (cantidad > 0),
+  precio_unitario DECIMAL(10, 2) NOT NULL CHECK (precio_unitario >= 0),
   CONSTRAINT fk_cdet_compra FOREIGN KEY (compra_id)
     REFERENCES compras (id) ON DELETE RESTRICT,
   CONSTRAINT fk_cdet_producto FOREIGN KEY (producto_id)

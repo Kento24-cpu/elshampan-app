@@ -29,16 +29,16 @@
 
         <Grid Grid.Column="2" ColumnDefinitions="110,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="8,4,0,0">
             <TextBlock Grid.Row="0" Text="Nombre:" VerticalAlignment="Center" Margin="0,4" />
-            <TextBox Grid.Row="0" Grid.Column="1" x:Name="Nombre" Margin="0,4" />
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="Nombre" MaxLength="120" Margin="0,4" />
 
             <TextBlock Grid.Row="1" Text="Teléfono:" VerticalAlignment="Center" Margin="0,4" />
-            <TextBox Grid.Row="1" Grid.Column="1" x:Name="Telefono" Margin="0,4" />
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="Telefono" MaxLength="20" Margin="0,4" />
 
             <TextBlock Grid.Row="2" Text="Email:" VerticalAlignment="Center" Margin="0,4" />
-            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Email" Margin="0,4" />
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Email" MaxLength="100" Margin="0,4" />
 
             <TextBlock Grid.Row="3" Text="Dirección:" VerticalAlignment="Center" Margin="0,4" />
-            <TextBox Grid.Row="3" Grid.Column="1" x:Name="Direccion" Margin="0,4" />
+            <TextBox Grid.Row="3" Grid.Column="1" x:Name="Direccion" MaxLength="150" Margin="0,4" />
         </Grid>
     </Grid>
 </Window>

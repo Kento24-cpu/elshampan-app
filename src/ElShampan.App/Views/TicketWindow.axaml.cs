@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using ElShampan.App.Models;
+using ElShampan.App.Services;
+using static ElShampan.App.Services.Dialogos;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -26,6 +28,28 @@ public partial class TicketWindow : Window
         _texto = texto;
         VistaPrevia.Text = texto;
     }
+
+    public static string Texto(Venta v)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("       ELSHAMSPAN");
+        sb.AppendLine("    Ticket de venta");
+        sb.AppendLine(new string('-', 36));
+        sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
+        sb.AppendLine($"Vendedor: {Truncar(v.Vendedor ?? Sesion.Actual!.NombreCompleto, 26)}");
+        sb.AppendLine(new string('-', 36));
+        foreach (var d in v.Detalles)
+            sb.AppendLine($"{d.Cantidad,3} x {Truncar(d.ProductoNombre, 20),-20}{d.Subtotal,10:N2}");
+        sb.AppendLine(new string('-', 36));
+        sb.AppendLine($"TOTAL: {v.Total,29:N2}");
+        sb.AppendLine($"Pago: {v.MetodoPago}");
+        sb.AppendLine();
+        sb.AppendLine("     Gracias por su compra");
+        return sb.ToString();
+    }
+
+    private static string Truncar(string texto, int max) =>
+        texto.Length <= max ? texto : texto[..(max - 1)] + ".";
 
     private static void GenerarPdf(string texto, string path)
     {
@@ -63,7 +87,7 @@ public partial class TicketWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("Error al generar PDF", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex, "Error al generar PDF");
         }
     }
 
@@ -77,7 +101,7 @@ public partial class TicketWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("Error al imprimir", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex, "Error al imprimir");
         }
     }
 }

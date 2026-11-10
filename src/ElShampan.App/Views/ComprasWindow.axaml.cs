@@ -3,8 +3,7 @@ using Avalonia.Interactivity;
 using ElShampan.App.Data;
 using ElShampan.App.Models;
 using ElShampan.App.Services;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using static ElShampan.App.Services.Dialogos;
 
 namespace ElShampan.App.Views;
 
@@ -19,12 +18,6 @@ public partial class ComprasWindow : Window
         CargarProductos();
         RefrescarCarrito();
     }
-
-    private static Task Aviso(string texto, string titulo = "Validación") =>
-        MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
-
-    private static Task ErrorDb(Exception ex) =>
-        MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
 
     private void CargarProveedores()
     {
@@ -68,7 +61,11 @@ public partial class ComprasWindow : Window
 
     private async void OnAgregar(object? sender, RoutedEventArgs e)
     {
-        if (ProductosGrid.SelectedItem is not Producto p) return;
+        if (ProductosGrid.SelectedItem is not Producto p)
+        {
+            await Aviso("Seleccione un producto.");
+            return;
+        }
         if ((PrecioUnitario.Value ?? 0) <= 0)
         {
             await Aviso("Ingrese un precio de compra mayor a cero.");
@@ -94,9 +91,13 @@ public partial class ComprasWindow : Window
         RefrescarCarrito();
     }
 
-    private void OnQuitar(object? sender, RoutedEventArgs e)
+    private async void OnQuitar(object? sender, RoutedEventArgs e)
     {
-        if (CarritoGrid.SelectedItem is not DetalleCompra d) return;
+        if (CarritoGrid.SelectedItem is not DetalleCompra d)
+        {
+            await Aviso("Seleccione un artículo del carrito.");
+            return;
+        }
         _carrito.Remove(d);
         RefrescarCarrito();
     }
@@ -139,7 +140,7 @@ public partial class ComprasWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("No se pudo registrar la compra", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex, "No se pudo registrar la compra");
             CargarProductos();
             return;
         }

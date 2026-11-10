@@ -55,7 +55,7 @@ public partial class LoginWindow : Window
         }
         catch (Exception ex)
         {
-            Error.Text = ex.Message;
+            Error.Text = Dialogos.DetalleError(ex);
         }
     }
 }

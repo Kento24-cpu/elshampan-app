@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElShampan en una diapositiva</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #eef1f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  .slide {
+    width: 1120px;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #12283f 0%, #1d4468 100%);
+    border-radius: 20px;
+    padding: 48px 56px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 60px rgba(10, 25, 45, 0.35);
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(255, 196, 74, 0.18);
+    color: #ffc44a;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 999px;
+    align-self: flex-start;
+  }
+  h1 {
+    font-size: 52px;
+    line-height: 1.1;
+    margin-top: 18px;
+    font-weight: 800;
+  }
+  h1 span { color: #ffc44a; }
+  .subtitle {
+    font-size: 21px;
+    color: #c7d6e6;
+    margin-top: 12px;
+    max-width: 860px;
+  }
+  .steps {
+    display: flex;
+    gap: 20px;
+    margin-top: auto;
+  }
+  .step {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 20px 22px;
+  }
+  .step .num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffc44a;
+    color: #12283f;
+    font-weight: 800;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .step h3 { font-size: 21px; margin-bottom: 6px; }
+  .step p { font-size: 16px; color: #c7d6e6; line-height: 1.4; }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 15px;
+    color: #9fb6cc;
+  }
+  .footer b { color: #fff; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <span class="badge">Proyecto académico · SGBD y Programación Visual</span>
+    <h1>ElShampan: el negocio, <span>bajo control</span></h1>
+    <p class="subtitle">
+      Un sistema de punto de venta que reemplaza el cuaderno y la calculadora:
+      registra cada venta, imprime el ticket y avisa cuándo reponer mercancía.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Entra y elige</h3>
+        <p>Cada quien inicia sesión con su usuario. El menú muestra solo lo que le corresponde.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Vende en un toque</h3>
+        <p>Busca el producto, lo agrega al carrito, cobra en efectivo o tarjeta y sale el ticket.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Revisa y repon</h3>
+        <p>Los reportes muestran cómo va el negocio y avisan en naranja qué producto está por agotarse.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span><b>2 tipos de usuario:</b> el admin que lo administra todo · el vendedor que solo vende</span>
+      <span><b>Ticket:</b> listo para imprimir</span>
+    </div>
+  </div>
+</body>
+</html>

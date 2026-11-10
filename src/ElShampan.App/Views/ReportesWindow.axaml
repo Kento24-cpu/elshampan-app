@@ -12,6 +12,7 @@
             <TextBlock Text="Hasta:" VerticalAlignment="Center" Margin="8,0,0,0" />
             <CalendarDatePicker x:Name="Hasta" Width="140" />
             <Button Content="Consultar" Click="OnConsultar" />
+            <CheckBox x:Name="SoloMisVentas" Content="Mis ventas" VerticalAlignment="Center" />
         </StackPanel>
 
         <Grid Grid.Row="1" ColumnDefinitions="*,6,340">
@@ -42,15 +43,15 @@
                     <TextBlock Text="Resumen del periodo" FontWeight="Bold" Margin="0,4,0,6" />
                     <Grid ColumnDefinitions="160,*" Margin="0,2">
                         <TextBlock Text="Total general:" />
-                        <TextBlock Grid.Column="1" x:Name="TotalGeneral" FontWeight="Bold" Foreground="DarkGreen" />
+                        <TextBlock Grid.Column="1" x:Name="TotalGeneral" FontWeight="Bold" Foreground="{StaticResource BrushTotal}" />
                     </Grid>
                     <Grid ColumnDefinitions="160,*" Margin="0,2">
                         <TextBlock Text="Efectivo:" />
-                        <TextBlock Grid.Column="1" x:Name="TotalEfectivo" FontWeight="Bold" Foreground="DarkGreen" />
+                        <TextBlock Grid.Column="1" x:Name="TotalEfectivo" FontWeight="Bold" Foreground="{StaticResource BrushTotal}" />
                     </Grid>
                     <Grid ColumnDefinitions="160,*" Margin="0,2">
                         <TextBlock Text="Tarjeta:" />
-                        <TextBlock Grid.Column="1" x:Name="TotalTarjeta" FontWeight="Bold" Foreground="DarkGreen" />
+                        <TextBlock Grid.Column="1" x:Name="TotalTarjeta" FontWeight="Bold" Foreground="{StaticResource BrushTotal}" />
                     </Grid>
 
                     <TextBlock Text="Top 5 productos" FontWeight="Bold" Margin="0,16,0,6" />
@@ -68,7 +69,8 @@
                               HeadersVisibility="Column" CanUserSortColumns="False">
                         <DataGrid.Styles>
                             <Style Selector="DataGridCell">
-                                <Setter Property="Background" Value="Orange" />
+                                <Setter Property="Background" Value="{StaticResource BrushStockBajoBg}" />
+                                <Setter Property="Foreground" Value="{StaticResource BrushStockBajoFg}" />
                             </Style>
                         </DataGrid.Styles>
                         <DataGrid.Columns>

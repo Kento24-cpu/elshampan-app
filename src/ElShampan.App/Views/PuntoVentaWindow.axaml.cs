@@ -1,11 +1,9 @@
-using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
 using ElShampan.App.Models;
 using ElShampan.App.Services;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using static ElShampan.App.Services.Dialogos;
 
 namespace ElShampan.App.Views;
 
@@ -20,9 +18,6 @@ public partial class PuntoVentaWindow : Window
         RefrescarCarrito();
     }
 
-    private static Task Aviso(string texto, string titulo = "Validacion") =>
-        MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
-
     private void OnBuscarChanged(object? sender, TextChangedEventArgs e) => CargarProductos();
 
     private void CargarProductos()
@@ -34,7 +29,7 @@ public partial class PuntoVentaWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            ErrorDb(ex);
         }
     }
 
@@ -44,7 +39,11 @@ public partial class PuntoVentaWindow : Window
 
     private async void Agregar()
     {
-        if (ProductosGrid.SelectedItem is not Producto p) return;
+        if (ProductosGrid.SelectedItem is not Producto p)
+        {
+            await Aviso("Seleccione un producto.");
+            return;
+        }
         var qty = (int)(Cantidad.Value ?? 1);
         var enCarrito = _carrito.Where(d => d.ProductoId == p.Id).Sum(d => d.Cantidad);
         if (enCarrito + qty > p.Stock)
@@ -58,9 +57,13 @@ public partial class PuntoVentaWindow : Window
         RefrescarCarrito();
     }
 
-    private void OnQuitar(object? sender, RoutedEventArgs e)
+    private async void OnQuitar(object? sender, RoutedEventArgs e)
     {
-        if (CarritoGrid.SelectedItem is not DetalleVenta d) return;
+        if (CarritoGrid.SelectedItem is not DetalleVenta d)
+        {
+            await Aviso("Seleccione un artículo del carrito.");
+            return;
+        }
         _carrito.Remove(d);
         RefrescarCarrito();
     }
@@ -85,48 +88,36 @@ public partial class PuntoVentaWindow : Window
             await Aviso("El carrito está vacío.");
             return;
         }
+        if (Pago.SelectedItem is not ComboBoxItem pago)
+        {
+            await Aviso("Seleccione un método de pago.");
+            return;
+        }
         var venta = new Venta
         {
             UsuarioId = Sesion.Actual!.Id,
-            MetodoPago = ((ComboBoxItem)Pago.SelectedItem!).Content!.ToString()!,
+            MetodoPago = pago.Content!.ToString()!,
             Subtotal = _carrito.Sum(d => d.Subtotal),
             Total = _carrito.Sum(d => d.Subtotal),
             Detalles = new List<DetalleVenta>(_carrito),
         };
+        if (!await Confirmacion($"Confirmar cobro de {venta.Total:N2} ({venta.MetodoPago}) con {_carrito.Count} artículo(s)."))
+            return;
         try
         {
             VentaRepository.Registrar(venta);
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("No se pudo registrar la venta", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex, "No se pudo registrar la venta");
             CargarProductos();
             return;
         }
         venta.Fecha = DateTime.Now;
-        var texto = TicketTexto(venta);
+        var texto = TicketWindow.Texto(venta);
         _carrito.Clear();
         RefrescarCarrito();
         CargarProductos();
         await new TicketWindow(texto).ShowDialog(this);
-    }
-
-    private static string TicketTexto(Venta v)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("       ELSHAMSPAN");
-        sb.AppendLine("    Ticket de venta");
-        sb.AppendLine("--------------------------");
-        sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
-        sb.AppendLine($"Vendedor: {Sesion.Actual!.NombreCompleto}");
-        sb.AppendLine("--------------------------");
-        foreach (var d in v.Detalles)
-            sb.AppendLine($"{d.Cantidad,3} x {d.ProductoNombre,-22}{d.Subtotal,10:N2}");
-        sb.AppendLine("--------------------------");
-        sb.AppendLine($"TOTAL: {v.Total,28:N2}");
-        sb.AppendLine($"Pago: {v.MetodoPago}");
-        sb.AppendLine();
-        sb.AppendLine("     Gracias por su compra");
-        return sb.ToString();
     }
 }

@@ -1,10 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
+using ElShampan.App.Services;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using static ElShampan.App.Services.Dialogos;
 
 namespace ElShampan.App.Views;
 
@@ -15,6 +15,7 @@ public partial class ReportesWindow : Window
         InitializeComponent();
         Desde.SelectedDate = DateTime.Today.AddDays(-30);
         Hasta.SelectedDate = DateTime.Today;
+        SoloMisVentas.IsChecked = !Sesion.Actual!.EsAdmin;
         Consultar();
     }
 
@@ -24,19 +25,20 @@ public partial class ReportesWindow : Window
     {
         if (Desde.SelectedDate is not { } d || Hasta.SelectedDate is not { } h)
         {
-            _ = MessageBoxManager.GetMessageBoxStandard("Validación", "Seleccione ambas fechas.", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
+            _ = Aviso("Seleccione ambas fechas.");
             return;
         }
         if (d.Date > h.Date)
         {
-            _ = MessageBoxManager.GetMessageBoxStandard("Validación", "La fecha 'desde' no puede ser posterior a 'hasta'.", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
+            _ = Aviso("La fecha 'desde' no puede ser posterior a 'hasta'.");
             return;
         }
         var desde = d.Date;
         var hasta = h.Date.AddDays(1);
+        int? usuarioId = SoloMisVentas.IsChecked == true ? Sesion.Actual!.Id : null;
         try
         {
-            var ventas = ReporteRepository.Ventas(desde, hasta);
+            var ventas = ReporteRepository.Ventas(desde, hasta, usuarioId);
             VentasGrid.ItemsSource = null;
             VentasGrid.ItemsSource = ventas;
             TotalGeneral.Text = ventas.Sum(v => v.Total).ToString("N2");
@@ -44,7 +46,7 @@ public partial class ReportesWindow : Window
             TotalTarjeta.Text = ventas.Where(v => v.MetodoPago == "tarjeta").Sum(v => v.Total).ToString("N2");
 
             TopGrid.ItemsSource = null;
-            TopGrid.ItemsSource = ReporteRepository.TopProductos(desde, hasta);
+            TopGrid.ItemsSource = ReporteRepository.TopProductos(desde, hasta, 5, usuarioId);
 
             StockGrid.ItemsSource = null;
             StockGrid.ItemsSource = ProductoRepository.GetLowStock();
@@ -68,7 +70,7 @@ public partial class ReportesWindow : Window
         }
         catch (Exception ex)
         {
-            _ = MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            _ = ErrorDb(ex);
         }
     }
 }
