@@ -9,7 +9,7 @@
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
                 <Button Content="Nuevo" Click="OnNuevo" />
                 <Button Content="Guardar" Click="OnGuardar" />
-                <Button Content="Eliminar" Click="OnEliminar" />
+                <Button Classes="danger" Content="Eliminar" Click="OnEliminar" />
             </StackPanel>
 
             <DataGrid Grid.Row="1" x:Name="Grid" IsReadOnly="True"

@@ -54,7 +54,7 @@
                 </StackPanel>
                 <TextBlock Text="TOTAL" FontWeight="Bold" Margin="0,8,0,0" />
                 <TextBlock x:Name="Total" FontWeight="Bold" Foreground="{StaticResource BrushTotal}" FontSize="18" />
-                <Button Content="Limpiar carrito" HorizontalAlignment="Stretch" Margin="0,8,0,0" Click="OnLimpiar" />
+                <Button Classes="danger" Content="Limpiar carrito" HorizontalAlignment="Stretch" Margin="0,8,0,0" Click="OnLimpiar" />
                 <Button Content="COBRAR" HorizontalAlignment="Stretch" Height="42"
                         FontWeight="Bold" HorizontalContentAlignment="Center" Click="OnCobrar" />
             </StackPanel>
