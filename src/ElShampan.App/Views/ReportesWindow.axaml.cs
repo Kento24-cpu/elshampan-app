@@ -13,8 +13,8 @@ public partial class ReportesWindow : Window
     public ReportesWindow()
     {
         InitializeComponent();
-        Desde.SelectedDate = new DateTimeOffset(DateTime.Today.AddDays(-30));
-        Hasta.SelectedDate = new DateTimeOffset(DateTime.Today);
+        Desde.SelectedDate = DateTime.Today.AddDays(-30);
+        Hasta.SelectedDate = DateTime.Today;
         Consultar();
     }
 
