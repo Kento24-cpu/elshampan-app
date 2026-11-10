@@ -10,7 +10,7 @@ Sistema de venta de licor sellado — Avalonia (.NET 8) + MySQL Server. Proyecto
 ## Puesta en marcha
 
 1. En MySQL Workbench, ejecutar contra `localhost` en este orden:
-   - `database/schema.sql` (crea la BD `elshampan_db` y las tablas)
+   - `database/schema.sql` (crea la BD `elshampan_db`, las tablas, 2 procedimientos almacenados con `ROLLBACK` y 2 triggers de validación)
    - `database/seed.sql` (usuarios, productos y proveedores de prueba)
 2. Editar `src/ElShampan.App/appsettings.json` y poner la contraseña real de MySQL en `Pwd`.
 3. Ejecutar:
