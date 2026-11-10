@@ -116,17 +116,20 @@ public partial class PuntoVentaWindow : Window
         var sb = new StringBuilder();
         sb.AppendLine("       ELSHAMSPAN");
         sb.AppendLine("    Ticket de venta");
-        sb.AppendLine("--------------------------");
+        sb.AppendLine(new string('-', 36));
         sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
-        sb.AppendLine($"Vendedor: {Sesion.Actual!.NombreCompleto}");
-        sb.AppendLine("--------------------------");
+        sb.AppendLine($"Vendedor: {Truncar(Sesion.Actual!.NombreCompleto, 26)}");
+        sb.AppendLine(new string('-', 36));
         foreach (var d in v.Detalles)
-            sb.AppendLine($"{d.Cantidad,3} x {d.ProductoNombre,-22}{d.Subtotal,10:N2}");
-        sb.AppendLine("--------------------------");
-        sb.AppendLine($"TOTAL: {v.Total,28:N2}");
+            sb.AppendLine($"{d.Cantidad,3} x {Truncar(d.ProductoNombre, 20),-20}{d.Subtotal,10:N2}");
+        sb.AppendLine(new string('-', 36));
+        sb.AppendLine($"TOTAL: {v.Total,29:N2}");
         sb.AppendLine($"Pago: {v.MetodoPago}");
         sb.AppendLine();
         sb.AppendLine("     Gracias por su compra");
         return sb.ToString();
     }
+
+    private static string Truncar(string texto, int max) =>
+        texto.Length <= max ? texto : texto[..(max - 1)] + ".";
 }

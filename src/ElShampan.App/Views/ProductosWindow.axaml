@@ -21,17 +21,18 @@
                       SelectionChanged="OnSeleccionar" LoadingRow="OnLoadingRow">
                 <DataGrid.Styles>
                     <Style Selector="DataGridRow.inactivo">
-                        <Setter Property="Background" Value="LightGray" />
+                        <Setter Property="Background" Value="{StaticResource BrushInactivoBg}" />
                     </Style>
                     <Style Selector="DataGridRow.inactivo > DataGridCell">
-                        <Setter Property="Background" Value="LightGray" />
-                        <Setter Property="Foreground" Value="DimGray" />
+                        <Setter Property="Background" Value="{StaticResource BrushInactivoBg}" />
+                        <Setter Property="Foreground" Value="{StaticResource BrushInactivoFg}" />
                     </Style>
                     <Style Selector="DataGridRow.stock-bajo">
-                        <Setter Property="Background" Value="Orange" />
+                        <Setter Property="Background" Value="{StaticResource BrushStockBajoBg}" />
                     </Style>
                     <Style Selector="DataGridRow.stock-bajo > DataGridCell">
-                        <Setter Property="Background" Value="Orange" />
+                        <Setter Property="Background" Value="{StaticResource BrushStockBajoBg}" />
+                        <Setter Property="Foreground" Value="{StaticResource BrushStockBajoFg}" />
                     </Style>
                 </DataGrid.Styles>
                 <DataGrid.Columns>

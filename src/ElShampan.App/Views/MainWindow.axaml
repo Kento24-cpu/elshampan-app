@@ -11,7 +11,7 @@
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Spacing="4">
                     <TextBlock Text="ElShampan" FontSize="22" FontWeight="Bold" />
-                    <TextBlock x:Name="Usuario" FontSize="12" Opacity="0.7" TextWrapping="Wrap" />
+                    <TextBlock x:Name="Usuario" FontSize="12" TextWrapping="Wrap" />
                     <Separator Margin="0,14" />
                     <StackPanel x:Name="Nav" Spacing="6" />
                 </StackPanel>
