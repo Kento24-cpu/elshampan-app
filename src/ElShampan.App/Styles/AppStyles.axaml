@@ -17,6 +17,10 @@
         <Setter Property="Background" Value="{StaticResource LoginWindowBrush}" />
     </Style>
 
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="#000000" />
+    </Style>
+
     <Style Selector="Button">
         <Setter Property="Background" Value="{StaticResource LoginButtonBrush}" />
         <Setter Property="Foreground" Value="White" />
@@ -36,7 +40,7 @@
     </Style>
     <Style Selector="Button.secondary">
         <Setter Property="Background" Value="#FFFCF6" />
-        <Setter Property="Foreground" Value="#8C5A2B" />
+        <Setter Property="Foreground" Value="#000000" />
         <Setter Property="BorderBrush" Value="#8C5A2B" />
         <Setter Property="BorderThickness" Value="1.5" />
     </Style>
@@ -67,11 +71,12 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="CornerRadius" Value="22" />
         <Setter Property="Padding" Value="16,0" />
+        <Setter Property="Foreground" Value="#000000" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CaretBrush" Value="#B07C1F" />
     </Style>
     <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
-        <Setter Property="Foreground" Value="#66625C" />
+        <Setter Property="Foreground" Value="#000000" />
         <Setter Property="Opacity" Value="1" />
     </Style>
     <Style Selector="TextBox:pointerover">
@@ -104,7 +109,7 @@
     </Style>
     <Style Selector="DataGridColumnHeader">
         <Setter Property="Background" Value="#ECE1CB" />
-        <Setter Property="Foreground" Value="#6E4526" />
+        <Setter Property="Foreground" Value="#000000" />
     </Style>
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="#FFFCF6" />

@@ -58,7 +58,7 @@ public partial class ReportesWindow : Window
             {
                 new ColumnSeries<decimal> { Values = porDia.Select(g => g.Sum(v => v.Total)).ToArray() }
             };
-            var ejeTexto = new SolidColorPaint(new SKColor(74, 59, 46));
+            var ejeTexto = new SolidColorPaint(SKColors.Black);
             VentasChart.XAxes = new Axis[]
             {
                 new Axis
