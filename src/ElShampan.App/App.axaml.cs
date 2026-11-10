@@ -6,7 +6,12 @@ namespace ElShampan.App;
 
 public partial class App : Application
 {
-    public override void Initialize() => AvaloniaXamlLoader.Load(this);
+    public override void Initialize()
+    {
+        AvaloniaXamlLoader.Load(this);
+        // tema Fluent deja el watermark a 0.4 de opacidad: sobre crema queda en ~2:1
+        Resources["TextControlPlaceholderOpacity"] = 1d;
+    }
 
     public override void OnFrameworkInitializationCompleted()
     {

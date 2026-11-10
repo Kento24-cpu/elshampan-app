@@ -4,6 +4,8 @@ using ElShampan.App.Data;
 using ElShampan.App.Services;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using static ElShampan.App.Services.Dialogos;
 
 namespace ElShampan.App.Views;
@@ -56,10 +58,17 @@ public partial class ReportesWindow : Window
             {
                 new ColumnSeries<decimal> { Values = porDia.Select(g => g.Sum(v => v.Total)).ToArray() }
             };
+            var ejeTexto = new SolidColorPaint(new SKColor(74, 59, 46));
             VentasChart.XAxes = new Axis[]
             {
-                new Axis { Labels = porDia.Select(g => g.Key.ToString("dd/MM")).ToArray(), LabelsRotation = 45 }
+                new Axis
+                {
+                    Labels = porDia.Select(g => g.Key.ToString("dd/MM")).ToArray(),
+                    LabelsRotation = 45,
+                    LabelsPaint = ejeTexto,
+                }
             };
+            VentasChart.YAxes = new Axis[] { new Axis { LabelsPaint = ejeTexto } };
 
             PagoChart.Series = ventas.GroupBy(v => v.MetodoPago)
                 .Select(g => (ISeries)new PieSeries<decimal>
