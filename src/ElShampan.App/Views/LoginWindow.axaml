@@ -2,19 +2,138 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ElShampan.App.Views.LoginWindow"
         Title="ElShampan - Inicio de sesión"
-        Width="380" MinWidth="380" MinHeight="250" SizeToContent="Height"
+        Width="820" Height="500" MinWidth="700" MinHeight="440"
         WindowStartupLocation="CenterScreen">
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="36,28" ColumnDefinitions="110,*">
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Usuario:" VerticalAlignment="Center" />
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="Usuario" Margin="0,6" Watermark="Nombre de usuario" />
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="4,0" />
+            <Setter Property="CaretBrush" Value="#B07C1F" />
+        </Style>
+        <Style Selector="Border.input">
+            <Setter Property="Background" Value="#F3EDE1" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="CornerRadius" Value="22" />
+            <Setter Property="Padding" Value="16,0" />
+        </Style>
+        <Style Selector="Border.input:focus-within">
+            <Setter Property="Background" Value="#ECE1CB" />
+            <Setter Property="BorderBrush" Value="#C8862A" />
+        </Style>
+        <Style Selector="Button#Ingresar">
+            <Setter Property="Background">
+                <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                    <GradientStop Color="#E8B45A" Offset="0" />
+                    <GradientStop Color="#C8862A" Offset="0.55" />
+                    <GradientStop Color="#8C5A2B" Offset="1" />
+                </LinearGradientBrush>
+            </Setter>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="CornerRadius" Value="22" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="12,10" />
+        </Style>
+    </Window.Styles>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Contraseña:" VerticalAlignment="Center" />
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="Password" Margin="0,6" PasswordChar="•" Watermark="Contraseña" />
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#F7F2E8" Offset="0" />
+                <GradientStop Color="#EFE4CE" Offset="0.6" />
+                <GradientStop Color="#E4D3B4" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
 
-        <Button Grid.Row="2" Grid.Column="1" x:Name="Ingresar" Content="Ingresar"
-                Margin="0,14,0,0" HorizontalAlignment="Left" MinWidth="110" Click="OnLogin" />
+        <Border Width="760" Height="440" MaxWidth="760" MaxHeight="440"
+                Background="#FFFCF6" CornerRadius="16" BoxShadow="0 14 44 0 #40000000"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid ColumnDefinitions="1.15*,1*">
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="Error"
-                   Foreground="Firebrick" TextWrapping="Wrap" Margin="0,14,0,0" />
+                <!-- Panel decorativo -->
+                <Border Grid.Column="0" ClipToBounds="True" CornerRadius="16,0,0,16">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#3A2A1A" Offset="0" />
+                            <GradientStop Color="#8C5A2B" Offset="0.55" />
+                            <GradientStop Color="#C8862A" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <!-- Círculos de fondo -->
+                        <Border Width="260" Height="260" CornerRadius="130"
+                                Background="#18FFFFFF" HorizontalAlignment="Right"
+                                VerticalAlignment="Top" Margin="0,-70,60,0" />
+                        <Border Width="150" Height="150" CornerRadius="75"
+                                Background="#12FFFFFF" HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom" Margin="60,0,0,-40" />
+
+                        <!-- Trazos diagonales -->
+                        <Border Width="150" Height="34" CornerRadius="17"
+                                Background="#E8B45A" Opacity="0.85"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Margin="-30,0,0,84" RenderTransformOrigin="50%,50%">
+                            <Border.RenderTransform><RotateTransform Angle="-45" /></Border.RenderTransform>
+                        </Border>
+                        <Border Width="110" Height="34" CornerRadius="17"
+                                Background="#F0D090" Opacity="0.7"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Margin="40,0,0,140" RenderTransformOrigin="50%,50%">
+                            <Border.RenderTransform><RotateTransform Angle="-45" /></Border.RenderTransform>
+                        </Border>
+                        <Border Width="90" Height="26" CornerRadius="13"
+                                Background="#F5E3B8" Opacity="0.75"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Margin="120,0,0,60" RenderTransformOrigin="50%,50%">
+                            <Border.RenderTransform><RotateTransform Angle="-45" /></Border.RenderTransform>
+                        </Border>
+                        <Border Width="70" Height="26" CornerRadius="13"
+                                Background="#C8862A" Opacity="0.6"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Margin="-10,0,0,30" RenderTransformOrigin="50%,50%">
+                            <Border.RenderTransform><RotateTransform Angle="-45" /></Border.RenderTransform>
+                        </Border>
+                        <Border Width="54" Height="22" CornerRadius="11"
+                                Background="#E8B45A" Opacity="0.65"
+                                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                Margin="180,0,0,120" RenderTransformOrigin="50%,50%">
+                            <Border.RenderTransform><RotateTransform Angle="-45" /></Border.RenderTransform>
+                        </Border>
+
+                        <StackPanel VerticalAlignment="Center" Margin="40,0,36,0" Spacing="14">
+                            <TextBlock Text="Bienvenido a ElShampan" FontSize="30" FontWeight="Bold"
+                                       Foreground="White" TextWrapping="Wrap" LineHeight="36" />
+                            <TextBlock Text="Control de inventario, ventas y compras. Inicie sesión para continuar."
+                                       Foreground="#E6FFFDF5" FontSize="14" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Formulario -->
+                <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                      Margin="44,0" VerticalAlignment="Center">
+                    <TextBlock Grid.Row="0" Text="INICIO DE SESIÓN" FontSize="16" FontWeight="Bold"
+                               Foreground="#8C5A2B" HorizontalAlignment="Center" Margin="0,0,0,26" />
+
+                    <Border Grid.Row="1" Classes="input" Margin="0,0,0,14" Height="46">
+                        <TextBox x:Name="Usuario" Watermark="Nombre de usuario" />
+                    </Border>
+
+                    <Border Grid.Row="2" Classes="input" Margin="0,0,0,18" Height="46">
+                        <TextBox x:Name="Password" PasswordChar="•" Watermark="Contraseña" />
+                    </Border>
+
+                    <Button Grid.Row="3" x:Name="Ingresar" Content="INGRESAR" Click="OnLogin"
+                            Height="46" HorizontalAlignment="Stretch" />
+
+                    <TextBlock Grid.Row="4" x:Name="Error" Foreground="Firebrick"
+                               TextWrapping="Wrap" TextAlignment="Center"
+                               HorizontalAlignment="Center" Margin="0,14,0,0" />
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
