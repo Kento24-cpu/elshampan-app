@@ -12,6 +12,7 @@
             <TextBlock Text="Hasta:" VerticalAlignment="Center" Margin="8,0,0,0" />
             <CalendarDatePicker x:Name="Hasta" Width="140" />
             <Button Content="Consultar" Click="OnConsultar" />
+            <CheckBox x:Name="SoloMisVentas" Content="Mis ventas" VerticalAlignment="Center" />
         </StackPanel>
 
         <Grid Grid.Row="1" ColumnDefinitions="*,6,340">

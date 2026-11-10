@@ -1,4 +1,3 @@
-using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
@@ -102,6 +101,8 @@ public partial class PuntoVentaWindow : Window
             Total = _carrito.Sum(d => d.Subtotal),
             Detalles = new List<DetalleVenta>(_carrito),
         };
+        if (!await Confirmacion($"Confirmar cobro de {venta.Total:N2} ({venta.MetodoPago}) con {_carrito.Count} artículo(s)."))
+            return;
         try
         {
             VentaRepository.Registrar(venta);
@@ -113,32 +114,10 @@ public partial class PuntoVentaWindow : Window
             return;
         }
         venta.Fecha = DateTime.Now;
-        var texto = TicketTexto(venta);
+        var texto = TicketWindow.Texto(venta);
         _carrito.Clear();
         RefrescarCarrito();
         CargarProductos();
         await new TicketWindow(texto).ShowDialog(this);
     }
-
-    private static string TicketTexto(Venta v)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("       ELSHAMSPAN");
-        sb.AppendLine("    Ticket de venta");
-        sb.AppendLine(new string('-', 36));
-        sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
-        sb.AppendLine($"Vendedor: {Truncar(Sesion.Actual!.NombreCompleto, 26)}");
-        sb.AppendLine(new string('-', 36));
-        foreach (var d in v.Detalles)
-            sb.AppendLine($"{d.Cantidad,3} x {Truncar(d.ProductoNombre, 20),-20}{d.Subtotal,10:N2}");
-        sb.AppendLine(new string('-', 36));
-        sb.AppendLine($"TOTAL: {v.Total,29:N2}");
-        sb.AppendLine($"Pago: {v.MetodoPago}");
-        sb.AppendLine();
-        sb.AppendLine("     Gracias por su compra");
-        return sb.ToString();
-    }
-
-    private static string Truncar(string texto, int max) =>
-        texto.Length <= max ? texto : texto[..(max - 1)] + ".";
 }

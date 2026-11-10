@@ -41,10 +41,12 @@ CREATE TABLE ventas (
   subtotal DECIMAL(10, 2) NOT NULL CHECK (subtotal >= 0),
   total DECIMAL(10, 2) NOT NULL CHECK (total >= 0),
   metodo_pago ENUM('efectivo', 'tarjeta') NOT NULL,
+  anulada TINYINT(1) NOT NULL DEFAULT 0,
   CONSTRAINT fk_ventas_usuario FOREIGN KEY (usuario_id)
     REFERENCES usuarios (id) ON DELETE RESTRICT,
   INDEX idx_ventas_fecha (fecha)
 ) ENGINE = InnoDB;
+-- Base existente: ALTER TABLE ventas ADD COLUMN anulada TINYINT(1) NOT NULL DEFAULT 0;
 
 CREATE TABLE ventas_detalles (
   id INT AUTO_INCREMENT PRIMARY KEY,

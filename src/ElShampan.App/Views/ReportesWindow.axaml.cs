@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
+using ElShampan.App.Services;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using static ElShampan.App.Services.Dialogos;
@@ -14,6 +15,7 @@ public partial class ReportesWindow : Window
         InitializeComponent();
         Desde.SelectedDate = DateTime.Today.AddDays(-30);
         Hasta.SelectedDate = DateTime.Today;
+        SoloMisVentas.IsChecked = !Sesion.Actual!.EsAdmin;
         Consultar();
     }
 
@@ -33,9 +35,10 @@ public partial class ReportesWindow : Window
         }
         var desde = d.Date;
         var hasta = h.Date.AddDays(1);
+        int? usuarioId = SoloMisVentas.IsChecked == true ? Sesion.Actual!.Id : null;
         try
         {
-            var ventas = ReporteRepository.Ventas(desde, hasta);
+            var ventas = ReporteRepository.Ventas(desde, hasta, usuarioId);
             VentasGrid.ItemsSource = null;
             VentasGrid.ItemsSource = ventas;
             TotalGeneral.Text = ventas.Sum(v => v.Total).ToString("N2");
@@ -43,7 +46,7 @@ public partial class ReportesWindow : Window
             TotalTarjeta.Text = ventas.Where(v => v.MetodoPago == "tarjeta").Sum(v => v.Total).ToString("N2");
 
             TopGrid.ItemsSource = null;
-            TopGrid.ItemsSource = ReporteRepository.TopProductos(desde, hasta);
+            TopGrid.ItemsSource = ReporteRepository.TopProductos(desde, hasta, 5, usuarioId);
 
             StockGrid.ItemsSource = null;
             StockGrid.ItemsSource = ProductoRepository.GetLowStock();

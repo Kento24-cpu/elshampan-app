@@ -8,6 +8,7 @@ public class Venta
     public decimal Subtotal { get; set; }
     public decimal Total { get; set; }
     public string MetodoPago { get; set; } = "efectivo";
+    public string? Vendedor { get; set; }
     public List<DetalleVenta> Detalles { get; set; } = new();
 }
 
