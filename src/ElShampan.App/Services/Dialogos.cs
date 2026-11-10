@@ -12,6 +12,10 @@ public static class Dialogos
     public static Task ErrorDb(Exception ex, string titulo = "Error de base de datos") =>
         MessageBoxManager.GetMessageBoxStandard(titulo, DetalleError(ex), ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
 
+    public static async Task<bool> Confirmacion(string texto, string titulo = "Confirmar") =>
+        await MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.YesNo, MsBox.Avalonia.Enums.Icon.Question).ShowWindowAsync()
+        == ButtonResult.Yes;
+
     public static string DetalleError(Exception ex) => ex switch
     {
         MySqlException { Number: 1048 } => "Faltan datos obligatorios.",
