@@ -61,7 +61,11 @@ public partial class ComprasWindow : Window
 
     private async void OnAgregar(object? sender, RoutedEventArgs e)
     {
-        if (ProductosGrid.SelectedItem is not Producto p) return;
+        if (ProductosGrid.SelectedItem is not Producto p)
+        {
+            await Aviso("Seleccione un producto.");
+            return;
+        }
         if ((PrecioUnitario.Value ?? 0) <= 0)
         {
             await Aviso("Ingrese un precio de compra mayor a cero.");
@@ -87,9 +91,13 @@ public partial class ComprasWindow : Window
         RefrescarCarrito();
     }
 
-    private void OnQuitar(object? sender, RoutedEventArgs e)
+    private async void OnQuitar(object? sender, RoutedEventArgs e)
     {
-        if (CarritoGrid.SelectedItem is not DetalleCompra d) return;
+        if (CarritoGrid.SelectedItem is not DetalleCompra d)
+        {
+            await Aviso("Seleccione un artículo del carrito.");
+            return;
+        }
         _carrito.Remove(d);
         RefrescarCarrito();
     }

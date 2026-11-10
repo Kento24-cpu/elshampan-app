@@ -40,7 +40,11 @@ public partial class PuntoVentaWindow : Window
 
     private async void Agregar()
     {
-        if (ProductosGrid.SelectedItem is not Producto p) return;
+        if (ProductosGrid.SelectedItem is not Producto p)
+        {
+            await Aviso("Seleccione un producto.");
+            return;
+        }
         var qty = (int)(Cantidad.Value ?? 1);
         var enCarrito = _carrito.Where(d => d.ProductoId == p.Id).Sum(d => d.Cantidad);
         if (enCarrito + qty > p.Stock)
@@ -54,9 +58,13 @@ public partial class PuntoVentaWindow : Window
         RefrescarCarrito();
     }
 
-    private void OnQuitar(object? sender, RoutedEventArgs e)
+    private async void OnQuitar(object? sender, RoutedEventArgs e)
     {
-        if (CarritoGrid.SelectedItem is not DetalleVenta d) return;
+        if (CarritoGrid.SelectedItem is not DetalleVenta d)
+        {
+            await Aviso("Seleccione un artículo del carrito.");
+            return;
+        }
         _carrito.Remove(d);
         RefrescarCarrito();
     }
@@ -81,10 +89,15 @@ public partial class PuntoVentaWindow : Window
             await Aviso("El carrito está vacío.");
             return;
         }
+        if (Pago.SelectedItem is not ComboBoxItem pago)
+        {
+            await Aviso("Seleccione un método de pago.");
+            return;
+        }
         var venta = new Venta
         {
             UsuarioId = Sesion.Actual!.Id,
-            MetodoPago = ((ComboBoxItem)Pago.SelectedItem!).Content!.ToString()!,
+            MetodoPago = pago.Content!.ToString()!,
             Subtotal = _carrito.Sum(d => d.Subtotal),
             Total = _carrito.Sum(d => d.Subtotal),
             Detalles = new List<DetalleVenta>(_carrito),
