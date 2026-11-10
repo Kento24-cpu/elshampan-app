@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
 using ElShampan.App.Models;
+using static ElShampan.App.Services.Dialogos;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 
@@ -18,9 +19,6 @@ public partial class ProveedoresWindow : Window
         Reload();
     }
 
-    private static Task Aviso(string texto, string titulo = "Validación") =>
-        MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
-
     private void Reload()
     {
         try
@@ -29,7 +27,7 @@ public partial class ProveedoresWindow : Window
         }
         catch (Exception ex)
         {
-            _ = MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            _ = ErrorDb(ex);
             return;
         }
         Grid.ItemsSource = null;
@@ -77,7 +75,7 @@ public partial class ProveedoresWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex);
             return;
         }
         _actual = p;
@@ -105,7 +103,7 @@ public partial class ProveedoresWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex);
             return;
         }
         Nuevo();

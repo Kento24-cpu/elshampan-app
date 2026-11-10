@@ -4,8 +4,7 @@ using Avalonia.Interactivity;
 using ElShampan.App.Data;
 using ElShampan.App.Models;
 using ElShampan.App.Services;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+using static ElShampan.App.Services.Dialogos;
 
 namespace ElShampan.App.Views;
 
@@ -20,9 +19,6 @@ public partial class PuntoVentaWindow : Window
         RefrescarCarrito();
     }
 
-    private static Task Aviso(string texto, string titulo = "Validacion") =>
-        MessageBoxManager.GetMessageBoxStandard(titulo, texto, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Warning).ShowWindowAsync();
-
     private void OnBuscarChanged(object? sender, TextChangedEventArgs e) => CargarProductos();
 
     private void CargarProductos()
@@ -34,7 +30,7 @@ public partial class PuntoVentaWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBoxManager.GetMessageBoxStandard("Error de base de datos", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            ErrorDb(ex);
         }
     }
 
@@ -99,7 +95,7 @@ public partial class PuntoVentaWindow : Window
         }
         catch (Exception ex)
         {
-            await MessageBoxManager.GetMessageBoxStandard("No se pudo registrar la venta", ex.Message, ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error).ShowWindowAsync();
+            await ErrorDb(ex, "No se pudo registrar la venta");
             CargarProductos();
             return;
         }
