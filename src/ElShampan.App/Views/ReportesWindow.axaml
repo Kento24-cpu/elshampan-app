@@ -11,7 +11,7 @@
             <CalendarDatePicker x:Name="Desde" Width="140" />
             <TextBlock Text="Hasta:" VerticalAlignment="Center" Margin="8,0,0,0" />
             <CalendarDatePicker x:Name="Hasta" Width="140" />
-            <Button Content="Consultar" Click="OnConsultar" />
+            <Button Classes="secondary" Content="Consultar" Click="OnConsultar" />
             <CheckBox x:Name="SoloMisVentas" Content="Mis ventas" VerticalAlignment="Center" />
         </StackPanel>
 

@@ -8,9 +8,9 @@
         <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBlock Text="Fecha:" VerticalAlignment="Center" />
             <DatePicker x:Name="Fecha" Width="140" />
-            <Button Content="Consultar" Click="OnConsultar" />
-            <Button Content="Ver ticket" Click="OnVerTicket" />
-            <Button Content="Anular venta" Click="OnAnular" />
+            <Button Classes="secondary" Content="Consultar" Click="OnConsultar" />
+            <Button Classes="secondary" Content="Ver ticket" Click="OnVerTicket" />
+            <Button Classes="danger" Content="Anular venta" Click="OnAnular" />
         </StackPanel>
 
         <DataGrid Grid.Row="1" x:Name="VentasGrid" IsReadOnly="True"
