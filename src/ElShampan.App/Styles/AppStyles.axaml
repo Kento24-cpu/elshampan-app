@@ -2,9 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <LinearGradientBrush x:Key="LoginButtonBrush" StartPoint="0%,50%" EndPoint="100%,50%">
-            <GradientStop Color="#E8B45A" Offset="0" />
-            <GradientStop Color="#C8862A" Offset="0.55" />
-            <GradientStop Color="#8C5A2B" Offset="1" />
+            <GradientStop Color="#A06A22" Offset="0" />
+            <GradientStop Color="#8C5A2B" Offset="0.55" />
+            <GradientStop Color="#6E4526" Offset="1" />
         </LinearGradientBrush>
         <LinearGradientBrush x:Key="LoginWindowBrush" StartPoint="0%,0%" EndPoint="100%,100%">
             <GradientStop Color="#F7F2E8" Offset="0" />
@@ -33,6 +33,32 @@
         <Setter Property="Background" Value="{StaticResource LoginButtonBrush}" />
         <Setter Property="Opacity" Value="0.8" />
     </Style>
+    <Style Selector="Button.secondary">
+        <Setter Property="Background" Value="#FFFCF6" />
+        <Setter Property="Foreground" Value="#8C5A2B" />
+        <Setter Property="BorderBrush" Value="#8C5A2B" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+    <Style Selector="Button.secondary:pointerover">
+        <Setter Property="Background" Value="#F3EDE1" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="Button.secondary:pressed">
+        <Setter Property="Background" Value="#ECE1CB" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="Button.danger">
+        <Setter Property="Background" Value="#B22222" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.danger:pointerover">
+        <Setter Property="Background" Value="#B22222" />
+        <Setter Property="Opacity" Value="0.92" />
+    </Style>
+    <Style Selector="Button.danger:pressed">
+        <Setter Property="Background" Value="#B22222" />
+        <Setter Property="Opacity" Value="0.8" />
+    </Style>
 
     <Style Selector="TextBox">
         <Setter Property="Background" Value="#F3EDE1" />
@@ -48,7 +74,7 @@
     </Style>
     <Style Selector="TextBox:focus">
         <Setter Property="Background" Value="#ECE1CB" />
-        <Setter Property="BorderBrush" Value="#C8862A" />
+        <Setter Property="BorderBrush" Value="#8C5A2B" />
     </Style>
 
     <Style Selector="ComboBox, DatePicker, CalendarDatePicker">
@@ -58,10 +84,10 @@
         <Setter Property="CornerRadius" Value="22" />
     </Style>
     <Style Selector="ComboBox:pointerover, DatePicker:pointerover, CalendarDatePicker:pointerover">
-        <Setter Property="BorderBrush" Value="#C8862A" />
+        <Setter Property="BorderBrush" Value="#8C5A2B" />
     </Style>
     <Style Selector="ComboBox:focus, DatePicker:focus, CalendarDatePicker:focus">
-        <Setter Property="BorderBrush" Value="#C8862A" />
+        <Setter Property="BorderBrush" Value="#8C5A2B" />
     </Style>
 
     <Style Selector="DataGrid">
@@ -72,7 +98,7 @@
     </Style>
     <Style Selector="DataGridColumnHeader">
         <Setter Property="Background" Value="#ECE1CB" />
-        <Setter Property="Foreground" Value="#8C5A2B" />
+        <Setter Property="Foreground" Value="#6E4526" />
     </Style>
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="#FFFCF6" />
