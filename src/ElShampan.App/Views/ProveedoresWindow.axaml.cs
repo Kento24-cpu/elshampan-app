@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
@@ -63,10 +64,22 @@ public partial class ProveedoresWindow : Window
             await Aviso("El nombre es obligatorio.");
             return;
         }
+        var nombre = Nombre.Text!.Trim();
+        if (_proveedores.Any(x => x.Id != (_actual?.Id ?? -1) && string.Equals(x.Nombre.Trim(), nombre, StringComparison.OrdinalIgnoreCase)))
+        {
+            await Aviso("Ya existe un proveedor con ese nombre.");
+            return;
+        }
+        var email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text!.Trim();
+        if (email != null && !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            await Aviso("El correo no tiene un formato válido.");
+            return;
+        }
         var p = _actual ?? new Proveedor();
-        p.Nombre = Nombre.Text!.Trim();
+        p.Nombre = nombre;
         p.Telefono = string.IsNullOrWhiteSpace(Telefono.Text) ? null : Telefono.Text!.Trim();
-        p.Email = string.IsNullOrWhiteSpace(Email.Text) ? null : Email.Text!.Trim();
+        p.Email = email;
         p.Direccion = string.IsNullOrWhiteSpace(Direccion.Text) ? null : Direccion.Text!.Trim();
         try
         {

@@ -96,6 +96,11 @@ public partial class ProductosWindow : Window
             await Aviso("El precio de venta debe ser mayor a cero.");
             return;
         }
+        if ((PrecioCompra.Value ?? 0) <= 0)
+        {
+            await Aviso("El precio de compra debe ser mayor a cero.");
+            return;
+        }
         var p = _actual ?? new Producto();
         p.Codigo = Codigo.Text!.Trim();
         p.Nombre = Nombre.Text!.Trim();
