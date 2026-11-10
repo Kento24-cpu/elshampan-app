@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.ProveedoresWindow"
+        Title="Proveedores"
+        Width="820" Height="440"
+        WindowStartupLocation="CenterOwner">
+    <Grid ColumnDefinitions="*,6,280" Margin="10">
+        <Grid RowDefinitions="Auto,*">
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <Button Content="Nuevo" Click="OnNuevo" />
+                <Button Content="Guardar" Click="OnGuardar" />
+                <Button Content="Eliminar" Click="OnEliminar" />
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" x:Name="Grid" IsReadOnly="True"
+                      SelectionMode="Single" HeadersVisibility="Column"
+                      CanUserSortColumns="False" SelectionChanged="OnSeleccionar">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" IsVisible="False" />
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*" />
+                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="130" />
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180" />
+                    <DataGridTextColumn Header="Dirección" Binding="{Binding Direccion}" Width="200" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Margin="4,0" />
+
+        <Grid Grid.Column="2" ColumnDefinitions="110,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="8,4,0,0">
+            <TextBlock Grid.Row="0" Text="Nombre:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="Nombre" Margin="0,4" />
+
+            <TextBlock Grid.Row="1" Text="Teléfono:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="Telefono" Margin="0,4" />
+
+            <TextBlock Grid.Row="2" Text="Email:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Email" Margin="0,4" />
+
+            <TextBlock Grid.Row="3" Text="Dirección:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="3" Grid.Column="1" x:Name="Direccion" Margin="0,4" />
+        </Grid>
+    </Grid>
+</Window>

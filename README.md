@@ -1,11 +1,10 @@
 # elshampan-app
 
-Sistema de venta de licor sellado — WinForms (.NET 8) + MySQL Server. Proyecto de SGBD y Programación Visual.
+Sistema de venta de licor sellado — Avalonia (.NET 8) + MySQL Server. Proyecto de SGBD y Programación Visual.
 
 ## Requisitos
 
-- Windows (WinForms solo se ejecuta en Windows)
-- .NET SDK 8.0 o superior
+- .NET SDK 8.0 o superior (Windows o Linux; la UI corre en ambos)
 - MySQL Server + MySQL Workbench
 
 ## Puesta en marcha
@@ -31,9 +30,9 @@ Sistema de venta de licor sellado — WinForms (.NET 8) + MySQL Server. Proyecto
 
 - **Login** — sesiones con roles admin/vendedor; contraseñas con PBKDF2-SHA256 (100k iteraciones).
 - **Productos** (admin) — CRUD con búsqueda, baja lógica y resaltado de stock mínimo.
-- **Punto de venta** — carrito, cobro con transacción MySQL (valida y descuenta stock con `FOR UPDATE`), ticket imprimible.
+- **Punto de venta** — carrito, cobro con transacción MySQL (valida y descuenta stock con `FOR UPDATE`), ticket en PDF.
 - **Compras** (admin) — entrada de mercancía por proveedor en transacción (aumenta stock); CRUD de proveedores.
-- **Reportes** — ventas por rango de fechas, totales por método de pago, top 5 productos y alertas de stock bajo.
+- **Reportes** — ventas por rango de fechas, totales por método de pago, top 5 productos, alertas de stock bajo y gráficas.
 - **Usuarios** (admin) — alta/baja y roles.
 
 ## Compilación
@@ -41,8 +40,6 @@ Sistema de venta de licor sellado — WinForms (.NET 8) + MySQL Server. Proyecto
 ```
 dotnet build
 ```
-
-El csproj trae `EnableWindowsTargeting=true`, así que `dotnet build` compila también en Linux; la ejecución requiere Windows.
 
 ## Estructura
 
@@ -52,6 +49,7 @@ src/ElShampan.App/
   Data/              Db + repositorios (consultas parametrizadas)
   Models/            entidades
   Services/          AuthService (hash) y Sesion
-  Forms/             pantallas WinForms
+  Views/             ventanas Avalonia (XAML + code-behind)
+  App.axaml          tema Fluent y estilos globales
   appsettings.json   connection string
 ```

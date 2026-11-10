@@ -1,0 +1,42 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using ElShampan.App.Services;
+
+namespace ElShampan.App.Views;
+
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+        var u = Sesion.Actual!;
+        Title = $"ElShampan - Sistema de venta de licor [{u.Rol}]";
+        Usuario.Text = $"{u.NombreCompleto}\n{u.Rol}";
+        Estado.Text = $"{u.NombreCompleto} ({u.Rol})";
+        AddNav("Productos", () => new ProductosWindow().ShowDialog(this), adminOnly: true);
+        AddNav("Compras", () => new ComprasWindow().ShowDialog(this), adminOnly: true);
+        AddNav("Punto de venta", () => new PuntoVentaWindow().ShowDialog(this));
+        AddNav("Reportes", () => new ReportesWindow().ShowDialog(this));
+        AddNav("Usuarios", () => new UsuariosWindow().ShowDialog(this), adminOnly: true);
+        Closed += (_, _) =>
+        {
+            if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                var login = new LoginWindow();
+                desktop.MainWindow = login;
+                login.Show();
+            }
+        };
+    }
+
+    private void AddNav(string label, Action open, bool adminOnly = false)
+    {
+        if (adminOnly && !Sesion.Actual!.EsAdmin) return;
+        var btn = new Button { Content = label, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch };
+        btn.Click += (_, _) => open();
+        Nav.Children.Add(btn);
+    }
+
+    private void OnCerrarSesion(object? sender, RoutedEventArgs e) => Close();
+}

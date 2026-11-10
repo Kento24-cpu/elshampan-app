@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ElShampan.App.Views.UsuariosWindow"
+        Title="Usuarios"
+        Width="820" Height="460"
+        WindowStartupLocation="CenterOwner">
+    <Grid ColumnDefinitions="*,6,280" Margin="10">
+        <Grid RowDefinitions="Auto,*">
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <Button Content="Nuevo" Click="OnNuevo" />
+                <Button Content="Guardar" Click="OnGuardar" />
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" x:Name="Grid" IsReadOnly="True"
+                      SelectionMode="Single" HeadersVisibility="Column"
+                      CanUserSortColumns="False" SelectionChanged="OnSeleccionar">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" IsVisible="False" />
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding NombreUsuario}" Width="130" />
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding NombreCompleto}" Width="*" />
+                    <DataGridTextColumn Header="Rol" Binding="{Binding Rol}" Width="100" />
+                    <DataGridTextColumn Header="Activo" Binding="{Binding Activo}" Width="70" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Margin="4,0" />
+
+        <Grid Grid.Column="2" ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="8,4,0,0">
+            <TextBlock Grid.Row="0" Text="Usuario:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="NombreUsuario" Margin="0,4" />
+
+            <TextBlock Grid.Row="1" Text="Nombre completo:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="NombreCompleto" Margin="0,4" />
+
+            <TextBlock Grid.Row="2" Text="Contraseña:" VerticalAlignment="Center" Margin="0,4" />
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Password" Margin="0,4"
+                     PasswordChar="•" Watermark="Mínimo 6 caracteres" />
+
+            <TextBlock Grid.Row="3" Text="Rol:" VerticalAlignment="Center" Margin="0,4" />
+            <ComboBox Grid.Row="3" Grid.Column="1" x:Name="Rol" Margin="0,4" SelectedIndex="0">
+                <ComboBoxItem Content="vendedor" />
+                <ComboBoxItem Content="admin" />
+            </ComboBox>
+
+            <CheckBox Grid.Row="4" Grid.Column="1" x:Name="Activo" Content="Activo" IsChecked="True" Margin="0,8,0,0" />
+        </Grid>
+    </Grid>
+</Window>
