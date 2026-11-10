@@ -53,16 +53,16 @@
         <ScrollViewer Grid.Column="2" Margin="8,0,0,0">
             <Grid ColumnDefinitions="110,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,4">
                 <TextBlock Grid.Row="0" Text="Código:" VerticalAlignment="Center" Margin="0,4" />
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="Codigo" Margin="0,4" />
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="Codigo" MaxLength="30" Margin="0,4" />
 
                 <TextBlock Grid.Row="1" Text="Nombre:" VerticalAlignment="Center" Margin="0,4" />
-                <TextBox Grid.Row="1" Grid.Column="1" x:Name="Nombre" Margin="0,4" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="Nombre" MaxLength="120" Margin="0,4" />
 
                 <TextBlock Grid.Row="2" Text="Categoría:" VerticalAlignment="Center" Margin="0,4" />
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="Categoria" Margin="0,4" />
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="Categoria" MaxLength="60" Margin="0,4" />
 
                 <TextBlock Grid.Row="3" Text="Descripción:" VerticalAlignment="Center" Margin="0,4" />
-                <TextBox Grid.Row="3" Grid.Column="1" x:Name="Descripcion" Margin="0,4" />
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="Descripcion" MaxLength="255" Margin="0,4" />
 
                 <TextBlock Grid.Row="4" Text="Precio compra:" VerticalAlignment="Center" Margin="0,4" />
                 <NumericUpDown Grid.Row="4" Grid.Column="1" x:Name="PrecioCompra" Margin="0,4"
