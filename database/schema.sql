@@ -83,3 +83,86 @@ CREATE TABLE compras_detalles (
   CONSTRAINT fk_cdet_producto FOREIGN KEY (producto_id)
     REFERENCES productos (id) ON DELETE RESTRICT
 ) ENGINE = InnoDB;
+
+-- Stored procedures (cada una con transaccion + ROLLBACK ante error)
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS sp_ajustar_stock $$
+CREATE PROCEDURE sp_ajustar_stock(
+  IN p_producto_id INT,
+  IN p_delta INT
+)
+BEGIN
+  DECLARE v_stock INT;
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    RESIGNAL;
+  END;
+
+  START TRANSACTION;
+  SELECT stock INTO v_stock FROM productos WHERE id = p_producto_id FOR UPDATE;
+  IF IFNULL(v_stock, 0) + p_delta < 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'El ajuste dejaria el stock en negativo';
+  END IF;
+  UPDATE productos SET stock = stock + p_delta WHERE id = p_producto_id;
+  COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS sp_anular_venta $$
+CREATE PROCEDURE sp_anular_venta(IN p_venta_id INT)
+BEGIN
+  DECLARE v_fin INT DEFAULT 0;
+  DECLARE v_producto_id INT;
+  DECLARE v_cantidad INT;
+  DECLARE cur CURSOR FOR
+    SELECT producto_id, cantidad FROM ventas_detalles WHERE venta_id = p_venta_id;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_fin = 1;
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    RESIGNAL;
+  END;
+
+  START TRANSACTION;
+  OPEN cur;
+  loop_detalles: LOOP
+    FETCH cur INTO v_producto_id, v_cantidad;
+    IF v_fin = 1 THEN
+      LEAVE loop_detalles;
+    END IF;
+    UPDATE productos SET stock = stock + v_cantidad WHERE id = v_producto_id;
+  END LOOP;
+  CLOSE cur;
+  DELETE FROM ventas_detalles WHERE venta_id = p_venta_id;
+  DELETE FROM ventas WHERE id = p_venta_id;
+  COMMIT;
+END$$
+
+-- Triggers (validacion liviana, sin efectos secundarios)
+DROP TRIGGER IF EXISTS trg_ventas_montos_validos $$
+CREATE TRIGGER trg_ventas_montos_validos BEFORE INSERT ON ventas
+FOR EACH ROW
+BEGIN
+  IF NEW.subtotal < 0 OR NEW.total < 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Los montos de la venta no pueden ser negativos';
+  END IF;
+END$$
+
+DROP TRIGGER IF EXISTS trg_detalle_subtotal_valido $$
+CREATE TRIGGER trg_detalle_subtotal_valido BEFORE INSERT ON ventas_detalles
+FOR EACH ROW
+BEGIN
+  IF NEW.cantidad <= 0 THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'La cantidad debe ser mayor que cero';
+  END IF;
+  IF NEW.subtotal <> NEW.cantidad * NEW.precio_unitario THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'El subtotal no coincide con cantidad por precio unitario';
+  END IF;
+END$$
+
+DELIMITER ;
