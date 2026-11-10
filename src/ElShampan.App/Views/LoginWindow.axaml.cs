@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ElShampan.App.Data;
 using ElShampan.App.Services;
-using MySqlConnector;
 
 namespace ElShampan.App.Views;
 
@@ -48,10 +47,6 @@ public partial class LoginWindow : Window
                 main.Show();
             }
             Close();
-        }
-        catch (MySqlException)
-        {
-            Error.Text = "No hay conexión con la base de datos. Revise appsettings.json.";
         }
         catch (Exception ex)
         {

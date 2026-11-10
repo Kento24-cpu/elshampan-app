@@ -24,7 +24,10 @@ public static class Dialogos
         MySqlException { Number: 1406 } => "El texto excede el largo permitido.",
         MySqlException { Number: 1451 } => "No se puede eliminar: el registro tiene movimientos asociados.",
         MySqlException { Number: 1452 } => "El registro relacionado no existe.",
-        MySqlException => "No hay conexión con la base de datos. Revise appsettings.json.",
+        MySqlException { Number: 1045 } => "MySQL rechazó las credenciales (Uid/Pwd). Revise appsettings.json.",
+        MySqlException { Number: 1049 } => "No existe la base de datos 'elshampan_db'. Ejecute database/schema.sql.",
+        MySqlException { Number: 1146 } => "Faltan tablas en la base de datos. Ejecute database/schema.sql.",
+        MySqlException mx => $"No hay conexión con MySQL (localhost:3306). Detalle: {mx.Message}",
         _ => $"Error interno. Detalle: {ex.Message}",
     };
 }
