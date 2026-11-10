@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="BrushTotal" Color="#3E7A3E" />
+    <SolidColorBrush x:Key="BrushTotal" Color="#000000" />
     <SolidColorBrush x:Key="BrushStockBajoBg" Color="#C8862A" />
-    <SolidColorBrush x:Key="BrushStockBajoFg" Color="#1A1A1A" />
+    <SolidColorBrush x:Key="BrushStockBajoFg" Color="#000000" />
     <SolidColorBrush x:Key="BrushInactivoBg" Color="#D9D2C4" />
-    <SolidColorBrush x:Key="BrushInactivoFg" Color="#404040" />
+    <SolidColorBrush x:Key="BrushInactivoFg" Color="#000000" />
 </ResourceDictionary>

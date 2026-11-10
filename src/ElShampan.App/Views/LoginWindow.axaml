@@ -73,7 +73,7 @@
                 <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                       Margin="44,0" VerticalAlignment="Center">
                     <TextBlock Grid.Row="0" Text="INICIO DE SESIÓN" FontSize="16" FontWeight="Bold"
-                               Foreground="#8C5A2B" HorizontalAlignment="Center" Margin="0,0,0,26" />
+                               Foreground="#000000" HorizontalAlignment="Center" Margin="0,0,0,26" />
 
                     <TextBox Grid.Row="1" x:Name="Usuario" Watermark="Nombre de usuario"
                              Height="46" Margin="0,0,0,14" />
@@ -84,7 +84,7 @@
                     <Button Grid.Row="3" x:Name="Ingresar" Content="INGRESAR" Click="OnLogin"
                             Height="46" HorizontalAlignment="Stretch" />
 
-                    <TextBlock Grid.Row="4" x:Name="Error" Foreground="#B22222"
+                    <TextBlock Grid.Row="4" x:Name="Error" Foreground="#000000"
                                TextWrapping="Wrap" TextAlignment="Center"
                                HorizontalAlignment="Center" Margin="0,14,0,0" />
                 </Grid>
