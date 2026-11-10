@@ -26,7 +26,7 @@ public partial class LoginWindow : Window
     private void OnLogin(object? sender, RoutedEventArgs e)
     {
         Error.Text = "";
-        if (Usuario.Text!.Trim().Length == 0 || Password.Text!.Length == 0)
+        if (string.IsNullOrEmpty(Usuario.Text) || string.IsNullOrEmpty(Password.Text))
         {
             Error.Text = "Ingrese usuario y contraseña.";
             return;
