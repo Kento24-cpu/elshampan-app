@@ -32,7 +32,7 @@ public partial class TicketWindow : Window
     public static string Texto(Venta v)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("       ELSHAMSPAN");
+        sb.AppendLine("       ELSHAMPAN");
         sb.AppendLine("    Ticket de venta");
         sb.AppendLine(new string('-', 36));
         sb.AppendLine($"Venta #{v.Id}  {v.Fecha:yyyy-MM-dd HH:mm}");
@@ -59,7 +59,7 @@ public partial class TicketWindow : Window
             {
                 page.Size(80, 200, Unit.Millimetre);
                 page.Margin(5, Unit.Millimetre);
-                page.DefaultTextStyle(t => t.FontFamily("Courier New").FontSize(9));
+                page.DefaultTextStyle(t => t.FontFamily("DejaVu Sans Mono").FontSize(9));
                 page.Content().Column(col =>
                 {
                     foreach (var linea in texto.Replace("\r", "").Split('\n'))
